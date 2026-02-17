@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 1320043388886342812}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.58, y: -2.04, z: 0}
-  m_LocalScale: {x: 1.2183151, y: 1.1392659, z: 1}
+  m_LocalPosition: {x: 0.005, y: -1.419, z: 0}
+  m_LocalScale: {x: 0.9807437, y: 0.8909059, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6247559473503421261}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2061723707715695083, guid: 6692c8409104ec64c9f5bd5aef6fe761, type: 3}
+  m_Sprite: {fileID: 205503597531000444, guid: 4aa511c9ea2d50648b011f8c738c6186, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6176942659827375950}
   - component: {fileID: 934551320591810815}
   m_Layer: 0
-  m_Name: Prefab_algodon
+  m_Name: Prefab_te
   m_TagString: "Org\xE1nico"
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -365,7 +365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Algod\xF3n"
+  m_text: "Bolsa de t\xE9"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 52e00852d93982048b958cf98b7504e1, type: 2}
   m_sharedMaterial: {fileID: -7121702844033472755, guid: 52e00852d93982048b958cf98b7504e1, type: 2}
