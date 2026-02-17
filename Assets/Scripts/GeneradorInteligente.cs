@@ -1,51 +1,62 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GeneradorInteligente : MonoBehaviour
 {
-    [Header("Configuración de Prefabs")]
-    // Arrastra aquí tus 5 o 6 residuos desde la carpeta de Prefabs
-    public GameObject[] listaDePrefabs; 
+    [Header("Configuración de Spawning")]
+    public List<GameObject> prefabsResiduos; 
+    public float tiempoEntreSpawns = 3f;
+    public Transform puntoDeSpawn;
 
-    [Header("Configuración del Canvas")]
-    // Arrastra aquí tu objeto Canvas para que los residuos sean visibles
-    public Transform parentCanvas;      
+    [Header("Área de Caída")]
+    public float rangoX = 4f; // Ajustar según el ancho de tu Canvas
 
-    [Header("Ajustes de la Lluvia")]
-    // Define qué tan ancho es el pasillo por donde caen los objetos
-    public float rangoDeAncho = 500f; 
+    private List<GameObject> bolsaDeTrabajo = new List<GameObject>();
+    private GameObject objetoActual;
+    private bool puedeGenerar = true;
 
-    // Referencia interna para controlar que solo caiga uno a la vez
-    private GameObject objetoActual;    
+    void Start() {
+        if (puntoDeSpawn == null) puntoDeSpawn = transform;
+        PrepararBolsa();
+        StartCoroutine(RutinaGeneracion());
+    }
 
-    void Update()
-    {
-        // El corazón de tu mecánica: si no hay objeto en pantalla, creamos uno
-        if (objetoActual == null)
-        {
-            SpawnNuevoObjeto();
+    void PrepararBolsa() {
+        bolsaDeTrabajo = new List<GameObject>(prefabsResiduos);
+        // Mezclado Fisher-Yates para evitar repeticiones
+        for (int i = 0; i < bolsaDeTrabajo.Count; i++) {
+            GameObject temp = bolsaDeTrabajo[i];
+            int randomIndex = Random.Range(i, bolsaDeTrabajo.Count);
+            bolsaDeTrabajo[i] = bolsaDeTrabajo[randomIndex];
+            bolsaDeTrabajo[randomIndex] = temp;
         }
     }
 
-    void SpawnNuevoObjeto()
-    {
-        // Validación de seguridad: evita que el juego se rompa si la lista está vacía
-        if (listaDePrefabs == null || listaDePrefabs.Length == 0)
-        {
-            Debug.LogWarning("¡Omar! Te falta llenar la lista de prefabs en el Inspector.");
-            return;
+    IEnumerator RutinaGeneracion() {
+        while (puedeGenerar) {
+            if (objetoActual == null) {
+                if (bolsaDeTrabajo.Count == 0) PrepararBolsa();
+
+                // Cálculo de posición aleatoria en el eje X
+                float spawnX = Random.Range(-rangoX, rangoX);
+                Vector3 spawnPos = new Vector3(puntoDeSpawn.position.x + spawnX, puntoDeSpawn.position.y, puntoDeSpawn.position.z);
+
+                GameObject prefab = bolsaDeTrabajo[0];
+                bolsaDeTrabajo.RemoveAt(0);
+                objetoActual = Instantiate(prefab, spawnPos, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(tiempoEntreSpawns);
         }
+    }
 
-        // Elegimos un residuo al azar de tu lista de 5 o 6
-        int indiceAleatorio = Random.Range(0, listaDePrefabs.Length);
-        
-        // Calculamos la posición X aleatoria centrada en el SpawnPoint
-        float randomX = Random.Range(-rangoDeAncho, rangoDeAncho); 
-        Vector3 posicion = new Vector3(transform.position.x + randomX, transform.position.y, 0);
+    public void DetenerGeneracion() => puedeGenerar = false;
+    public GameObject GetObjetoActual() => objetoActual;
 
-        // Instanciamos el objeto y guardamos la referencia para el Update
-        objetoActual = Instantiate(listaDePrefabs[indiceAleatorio], posicion, Quaternion.identity);
-        
-        // Lo emparentamos al Canvas para que respete las capas de la interfaz
-        objetoActual.transform.SetParent(parentCanvas, false);
+    void OnDrawGizmos() {
+        if (puntoDeSpawn != null) {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(puntoDeSpawn.position, new Vector3(rangoX * 2, 0.5f, 0.5f));
+        }
     }
 }

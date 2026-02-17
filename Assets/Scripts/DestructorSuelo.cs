@@ -4,10 +4,15 @@ public class DestructorSuelo : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Cuando cualquier residuo toca el suelo, lo borramos de la existencia
+        // 1. Avisar al GameManager que el residuo tocó el suelo (Error)
+        if (GameManager.Instance != null) 
+        {
+            GameManager.Instance.ProcesarError();
+        }
+
+        // 2. Borrar el residuo de la existencia
         Destroy(collision.gameObject);
         
-        // Como el objeto se destruye, el GeneradorInteligente detectará 
-        // que ya no hay nada en pantalla y lanzará el siguiente
+        // El GeneradorInteligente detectará que se destruyó y lanzará el siguiente
     }
 }

@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour
 {
     [Header("Keyboard Mappings")]
     public KeyCode[] categoryKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
-    public int[] categoryValues = { 4, 5, 6, 10 }; // Valores por defecto
+    public int[] categoryValues = { 0, 1, 2, 3 }; // Valores por defecto
 
     void Update()
     {
