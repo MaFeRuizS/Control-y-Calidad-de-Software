@@ -10,7 +10,7 @@ public class GeneradorInteligente : MonoBehaviour
     public Transform puntoDeSpawn;
 
     [Header("Área de Caída")]
-    public float rangoX = 8f; // Ajustar según el ancho de tu Canvas
+    public float rangoX = 4f; // Ajustar según el ancho de tu Canvas
 
     private List<GameObject> bolsaDeTrabajo = new List<GameObject>();
     private GameObject objetoActual;
