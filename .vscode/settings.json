@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "PROYECTCL.slnx"
+    "dotnet.defaultSolution": "Control-y-Calidad-de-Software.slnx"
 }
