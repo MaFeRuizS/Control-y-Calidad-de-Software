@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: bcc1babf2410a224caba13cfd7c478f4
+guid: 52cf4ae0d1d1cb9489d479efd97e6e1d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3839480498432696178
-    second: recicleble_0
-  - first:
-      213: -3349733642234108529
-    second: recicleble_1
+      213: -5968377127691722663
+    second: Incorrecto_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: recicleble_0
+      name: Incorrecto_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 0
-        width: 1513
-        height: 1024
+        x: 30
+        y: 539
+        width: 1020
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e8021e044dc67bac0800000000000000
-      internalID: -3839480498432696178
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: recicleble_1
-      rect:
-        serializedVersion: 2
-        x: 994
-        y: 752
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f85e572000b5381d0800000000000000
-      internalID: -3349733642234108529
+      spriteID: 9506e5acf901c2da0800000000000000
+      internalID: -5968377127691722663
       vertices: []
       indices: 
       edges: []
@@ -160,8 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      recicleble_0: -3839480498432696178
-      recicleble_1: -3349733642234108529
+      Incorrecto_0: -5968377127691722663
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

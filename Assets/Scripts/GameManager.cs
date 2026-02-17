@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,234 +13,215 @@ public class GameManager : MonoBehaviour
     public float elementFallSpeed = 2f;
     public int maxLives = 3;
     public int elementsPerLevel = 15;
-    public float levelTimeLimit = 120f;
+    public float timeLimit = 120f;
 
-    [Header("UI References")]
+    [Header("UI References (Marcadores)")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timeText;
-    public TextMeshProUGUI levelText;
-    public GameObject[] lifeHearts;
+    public TextMeshProUGUI vidasText; 
+    public TextMeshProUGUI aciertosText; 
+
+    [Header("UI Feedback (Aciertos/Errores)")]
+    public GameObject panelFeedback;
+    public Image imagenFondoPopup;
+    public Sprite imagenCorrecto;
+    public Sprite imagenIncorrecto;
+
+    [Header("UI Final (Game Over)")]
     public GameObject gameOverPanel;
     public GameObject levelCompletePanel;
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI finalAciertosText;
+    public TextMeshProUGUI finalTimeText;
 
-    [Header("Gameplay")]
-    public Transform spawnPoint;
-    public Transform groundLimit;
-    public GameObject elementPrefab;
-    public Transform[] categoryButtons;
+    [Header("Configuración del Repechaje")]
+    public GameObject repechajePanel;
+    public List<PreguntaRepechaje> bancoPreguntas;
+    public TextMeshProUGUI textoEnunciado;
+    public TextMeshProUGUI[] textosBotonesOpciones;
 
-    // Game State
-    private int currentScore = 0;
-    private int currentLives;
-    private int currentLevel = 1;
-    private float timeRemaining;
-    private int elementsClassified = 0;
-    private bool isGameActive = false;
+    [Header("Gameplay Connections")]
+    public GeneradorInteligente generador; 
+    public List<RectTransform> categoryButtons;
 
-    // Current element
-    private GameObject currentElement;
-    private MathElement currentMathElement;
+    private int puntuacion = 0;
+    private int aciertosActuales = 0;
+    private int vidasActuales;
+    private float tiempoRestante;
+    private bool juegoPausado = false;
+    private bool repechajeUsado = false;
+    private int indicePreguntaActual;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+    void Awake() {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    void Start()
-    {
-        InitializeGame();
-    }
-
-    void Update()
-    {
-        if (isGameActive)
-        {
-            UpdateTimer();
-            CheckElementPosition();
-        }
-    }
-
-    public void InitializeGame()
-    {
-        currentScore = 0;
-        currentLives = maxLives;
-        currentLevel = 1;
-        timeRemaining = levelTimeLimit;
-        elementsClassified = 0;
-        isGameActive = true;
-
-        UpdateUI();
-        SpawnNewElement();
-    }
-
-    void UpdateTimer()
-    {
-        timeRemaining -= Time.deltaTime;
+    void Start() {
+        vidasActuales = maxLives;
+        tiempoRestante = timeLimit;
+        ActualizarInterfaz();
         
-        if (timeRemaining <= 0)
-        {
-            timeRemaining = 0;
-            GameOver();
-        }
-
-        UpdateUI();
+        // Aseguramos que los paneles estén apagados al iniciar
+        if(panelFeedback) panelFeedback.SetActive(false);
+        if(gameOverPanel) gameOverPanel.SetActive(false);
+        if(levelCompletePanel) levelCompletePanel.SetActive(false);
+        if(repechajePanel) repechajePanel.SetActive(false);
     }
 
-    void CheckElementPosition()
-    {
-        if (currentElement != null && currentElement.transform.position.y <= groundLimit.position.y)
-        {
-            LoseLife();
-            Destroy(currentElement);
-            SpawnNewElement();
+    void Update() {
+        if (!juegoPausado) ManejarCronometro();
+    }
+
+    void ManejarCronometro() {
+        if (tiempoRestante > 0) {
+            tiempoRestante -= Time.deltaTime;
+            ActualizarInterfaz();
+        } else {
+            TerminarJuego(false);
         }
     }
 
-    public void SpawnNewElement()
-    {
-        if (elementsClassified >= elementsPerLevel)
-        {
-            LevelComplete();
-            return;
-        }
+    // --- FUNCIONES DE UTILIDAD ---
+    public float GetFallSpeed() => elementFallSpeed;
 
-        // Destroy previous element if exists
-        if (currentElement != null)
-        {
-            Destroy(currentElement);
-        }
+    public void TerminarJuego() => TerminarJuego(false);
 
-        // Create new element
-        currentElement = Instantiate(elementPrefab, spawnPoint.position, Quaternion.identity);
-        currentMathElement = currentElement.GetComponent<MathElement>();
+    public void TerminarJuego(bool victoria) {
+        juegoPausado = true;
         
-        if (currentMathElement != null)
-        {
-            currentMathElement.Initialize();
-        }
-    }
+        if (generador != null) generador.DetenerGeneracion();
 
-    public void ClassifyElement(int selectedCategory)
-    {
-        if (currentMathElement == null || !isGameActive) return;
+        // Limpieza de objetos que quedaron en el aire
+        GameObject objetoEnVuelo = generador.GetObjetoActual();
+        if (objetoEnVuelo != null) Destroy(objetoEnVuelo);
 
-        bool isCorrect = currentMathElement.CheckAnswer(selectedCategory);
+        // Seleccionamos qué panel mostrar
+        GameObject panelFinal = victoria ? levelCompletePanel : gameOverPanel;
+        
+        if (panelFinal) {
+            panelFinal.SetActive(true); // Aquí es donde se "dispara" el desorden si el diseño está mal
 
-        if (isCorrect)
-        {
-            currentScore += 10;
-            elementsClassified++;
-            AudioManager.Instance?.PlayCorrectSound();
-        }
-        else
-        {
-            LoseLife();
-            AudioManager.Instance?.PlayWrongSound();
-        }
-
-        UpdateUI();
-        Destroy(currentElement);
-        SpawnNewElement();
-    }
-
-    void LoseLife()
-    {
-        currentLives--;
-        UpdateLivesUI();
-
-        if (currentLives <= 0)
-        {
-            ShowRepechaje();
-        }
-    }
-
-    void UpdateLivesUI()
-    {
-        for (int i = 0; i < lifeHearts.Length; i++)
-        {
-            if (lifeHearts[i] != null)
-            {
-                lifeHearts[i].SetActive(i < currentLives);
+            // CORRECCIÓN: Usar .ToString() y asegurar que las referencias existan
+            if(finalScoreText) finalScoreText.text = puntuacion.ToString();
+            if(finalAciertosText) finalAciertosText.text = aciertosActuales.ToString() + "/" + elementsPerLevel.ToString();
+            if(finalTimeText) {
+                float tiempoUsado = timeLimit - tiempoRestante;
+                finalTimeText.text = tiempoUsado.ToString("F0") + "s";
             }
         }
     }
 
-    void UpdateUI()
-    {
-        if (scoreText != null)
-            scoreText.text = "Puntos: " + currentScore;
-
-        if (timeText != null)
-        {
-            int minutes = Mathf.FloorToInt(timeRemaining / 60);
-            int seconds = Mathf.FloorToInt(timeRemaining % 60);
-            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    // --- LÓGICA DE CLASIFICACIÓN ---
+    public void ClassifyElement(int index) {
+        if (index >= 0 && index < categoryButtons.Count) {
+            string tagBoton = categoryButtons[index].gameObject.tag;
+            ClassifyElement(tagBoton);
         }
-
-        if (levelText != null)
-            levelText.text = "Nivel: " + currentLevel;
     }
 
-    void ShowRepechaje()
-    {
-        isGameActive = false;
-        // Aquí se mostraría la pregunta de repechaje
-        // Por ahora, terminamos el juego
-        GameOver();
-    }
-
-    void GameOver()
-    {
-        isGameActive = false;
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
+    public void ClassifyElement(string tagBoton) {
+        if (juegoPausado) return;
         
-        Debug.Log("Game Over! Puntuación final: " + currentScore);
+        GameObject objetoActual = generador.GetObjetoActual();
+        if (objetoActual != null) {
+            if (objetoActual.CompareTag(tagBoton)) ProcesarAcierto(objetoActual);
+            else ProcesarError();
+        }
     }
 
-    void LevelComplete()
-    {
-        isGameActive = false;
-        currentLevel++;
+    public void ProcesarAcierto(GameObject obj) {
+        puntuacion += 10;
+        aciertosActuales++;
+        MostrarPopUp(imagenCorrecto);
+        Destroy(obj);
+        ActualizarInterfaz();
+        if (aciertosActuales >= elementsPerLevel) TerminarJuego(true);
+    }
+
+    public void ProcesarError() {
+        if (juegoPausado) return;
+
+        vidasActuales--;
+        MostrarPopUp(imagenIncorrecto);
         
-        if (levelCompletePanel != null)
-            levelCompletePanel.SetActive(true);
+        GameObject objetoParaBorrar = generador.GetObjetoActual();
+        if (objetoParaBorrar != null) Destroy(objetoParaBorrar);
 
-        Debug.Log("¡Nivel " + (currentLevel - 1) + " completado!");
+        ActualizarInterfaz();
+
+        if (vidasActuales <= 0) {
+            if (!repechajeUsado) ActivarRepechaje();
+            else TerminarJuego(false);
+        }
     }
 
-    public void RestartGame()
-    {
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(false);
-        if (levelCompletePanel != null)
-            levelCompletePanel.SetActive(false);
-
-        InitializeGame();
+    // --- SISTEMA DE REPECHAJE ---
+    void ActivarRepechaje() {
+        juegoPausado = true;
+        repechajeUsado = true;
+        if(repechajePanel) {
+            repechajePanel.SetActive(true);
+            MostrarPreguntaAleatoria();
+        }
     }
 
-    public void NextLevel()
-    {
-        if (levelCompletePanel != null)
-            levelCompletePanel.SetActive(false);
-
-        timeRemaining = levelTimeLimit;
-        elementsClassified = 0;
-        elementFallSpeed += 0.5f; // Incrementar dificultad
-        isGameActive = true;
-
-        SpawnNewElement();
+    void MostrarPreguntaAleatoria() {
+        if (bancoPreguntas.Count > 0) {
+            indicePreguntaActual = Random.Range(0, bancoPreguntas.Count);
+            PreguntaRepechaje p = bancoPreguntas[indicePreguntaActual];
+            textoEnunciado.text = p.enunciado;
+            for (int i = 0; i < 4; i++) textosBotonesOpciones[i].text = p.opciones[i];
+        }
     }
 
-    public float GetFallSpeed()
-    {
-        return elementFallSpeed;
+    public void ComprobarRespuestaRepechaje(int indiceSeleccionado) {
+        if (indiceSeleccionado == bancoPreguntas[indicePreguntaActual].indiceCorrecto) {
+            vidasActuales = 1;
+            if (tiempoRestante < 10f) tiempoRestante += 15f; // Bonus de tiempo por acertar
+            repechajePanel.SetActive(false);
+            juegoPausado = false;
+            ActualizarInterfaz();
+        } else {
+            repechajePanel.SetActive(false);
+            TerminarJuego(false);
+        }
     }
+
+    // --- UI Y FEEDBACK ---
+    void ActualizarInterfaz() {
+        // Usamos .ToString() para convertir el número a texto correctamente
+        if (scoreText) scoreText.text = puntuacion.ToString();
+        if (vidasText) vidasText.text = vidasActuales.ToString();
+        if (aciertosText) aciertosText.text = aciertosActuales.ToString() + "/" + elementsPerLevel.ToString();
+        
+        if (timeText) {
+            int min = Mathf.FloorToInt(tiempoRestante / 60);
+            int seg = Mathf.FloorToInt(tiempoRestante % 60);
+            timeText.text = string.Format("{0:00}:{1:00}", min, seg);
+        }
+    }
+
+    void MostrarPopUp(Sprite diseño) {
+        if (imagenFondoPopup && panelFeedback) {
+            imagenFondoPopup.sprite = diseño;
+            panelFeedback.SetActive(true);
+            StopCoroutine("OcultarMensaje");
+            StartCoroutine(OcultarMensaje());
+        }
+    }
+
+    IEnumerator OcultarMensaje() {
+        yield return new WaitForSeconds(0.8f);
+        if(panelFeedback) panelFeedback.SetActive(false);
+    }
+
+    public void RestartGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+}
+
+[System.Serializable]
+public class PreguntaRepechaje {
+    public string enunciado;
+    public string[] opciones; 
+    public int indiceCorrecto; 
 }

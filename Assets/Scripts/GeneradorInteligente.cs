@@ -1,51 +1,76 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GeneradorInteligente : MonoBehaviour
 {
-    [Header("Configuración de Prefabs")]
-    // Arrastra aquí tus 5 o 6 residuos desde la carpeta de Prefabs
-    public GameObject[] listaDePrefabs; 
+    [Header("Configuración de Spawning")]
+    [Tooltip("Lista de prefabs de residuos que aparecerán en el juego.")]
+    public List<GameObject> prefabsResiduos;
+    
+    [Tooltip("Tiempo base entre cada aparición.")]
+    public float tiempoEntreSpawns = 3f;
+    
+    [Tooltip("Punto exacto donde aparecerán los objetos.")]
+    public Transform puntoDeSpawn;
 
-    [Header("Configuración del Canvas")]
-    // Arrastra aquí tu objeto Canvas para que los residuos sean visibles
-    public Transform parentCanvas;      
+    private GameObject objetoActual;
+    private bool puedeGenerar = true;
 
-    [Header("Ajustes de la Lluvia")]
-    // Define qué tan ancho es el pasillo por donde caen los objetos
-    public float rangoDeAncho = 500f; 
-
-    // Referencia interna para controlar que solo caiga uno a la vez
-    private GameObject objetoActual;    
-
-    void Update()
+    void Start()
     {
-        // El corazón de tu mecánica: si no hay objeto en pantalla, creamos uno
-        if (objetoActual == null)
+        // Validación de seguridad: Si no se asigna un punto, se usa la posición del script
+        if (puntoDeSpawn == null)
         {
-            SpawnNuevoObjeto();
+            Debug.LogWarning("Punto de Spawn no asignado. Usando posición de: " + gameObject.name);
+            puntoDeSpawn = transform;
         }
-    }
 
-    void SpawnNuevoObjeto()
-    {
-        // Validación de seguridad: evita que el juego se rompa si la lista está vacía
-        if (listaDePrefabs == null || listaDePrefabs.Length == 0)
+        // Validación de lista vacía
+        if (prefabsResiduos == null || prefabsResiduos.Count == 0)
         {
-            Debug.LogWarning("¡Omar! Te falta llenar la lista de prefabs en el Inspector.");
+            Debug.LogError("¡La lista de prefabs está vacía! Añade objetos en el Inspector.");
+            puedeGenerar = false;
             return;
         }
 
-        // Elegimos un residuo al azar de tu lista de 5 o 6
-        int indiceAleatorio = Random.Range(0, listaDePrefabs.Length);
-        
-        // Calculamos la posición X aleatoria centrada en el SpawnPoint
-        float randomX = Random.Range(-rangoDeAncho, rangoDeAncho); 
-        Vector3 posicion = new Vector3(transform.position.x + randomX, transform.position.y, 0);
+        StartCoroutine(RutinaGeneracion());
+    }
 
-        // Instanciamos el objeto y guardamos la referencia para el Update
-        objetoActual = Instantiate(listaDePrefabs[indiceAleatorio], posicion, Quaternion.identity);
+    IEnumerator RutinaGeneracion()
+    {
+        while (puedeGenerar)
+        {
+            // Solo generamos si el objeto anterior ya no está (fue recolectado o destruido)
+            if (objetoActual == null)
+            {
+                GenerarResiduo();
+            }
+
+            // Agregamos una pequeña variación de tiempo para que no sea predecible
+            float variacion = Random.Range(-0.5f, 0.5f);
+            yield return new WaitForSeconds(Mathf.Max(0.1f, tiempoEntreSpawns + variacion));
+        }
+    }
+
+    void GenerarResiduo()
+    {
+        int indiceAleatorio = Random.Range(0, prefabsResiduos.Count);
         
-        // Lo emparentamos al Canvas para que respete las capas de la interfaz
-        objetoActual.transform.SetParent(parentCanvas, false);
+        // Instancia el objeto y guarda la referencia en 'objetoActual'
+        objetoActual = Instantiate(prefabsResiduos[indiceAleatorio], puntoDeSpawn.position, Quaternion.identity);
+    }
+
+    // Método para ser llamado por el GameManager cuando el jugador pierde o gana
+    public void DetenerGeneracion()
+    {
+        puedeGenerar = false;
+        StopAllCoroutines();
+        Debug.Log("<color=yellow>Sistema de generación detenido.</color>");
+    }
+
+    public GameObject GetObjetoActual()
+    {
+        return objetoActual;
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9d7c97eda89ae1043b9c251f5c26369c
+guid: 5f3388bc10422a94d969091e692253d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 492883580509190322
-    second: reci_0
+      213: -7657144845699925981
+    second: flores_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: reci_0
+      name: flores_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 0
-        width: 1516
-        height: 1024
+        x: 226
+        y: 331
+        width: 618
+        height: 408
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2b87fdb410317d600800000000000000
-      internalID: 492883580509190322
+      spriteID: 328b756055b5cb590800000000000000
+      internalID: -7657144845699925981
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      reci_0: 492883580509190322
+      flores_0: -7657144845699925981
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
