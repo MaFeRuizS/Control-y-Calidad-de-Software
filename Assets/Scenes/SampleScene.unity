@@ -2363,6 +2363,7 @@ MonoBehaviour:
   - {fileID: 2060706464807578409, guid: 7ae427440aadc634fb78c3d9353ec4ff, type: 3}
   tiempoEntreSpawns: 3
   puntoDeSpawn: {fileID: 924701951}
+  rangoX: 8
 --- !u!1 &947564779
 GameObject:
   m_ObjectHideFlags: 0
@@ -2505,10 +2506,6 @@ MonoBehaviour:
   finalScoreText: {fileID: 1563977068}
   finalAciertosText: {fileID: 1659682206}
   finalTimeText: {fileID: 153380367}
-  repechajePanel: {fileID: 0}
-  bancoPreguntas: []
-  textoEnunciado: {fileID: 0}
-  textosBotonesOpciones: []
   generador: {fileID: 924701952}
   categoryButtons:
   - {fileID: 193101550}

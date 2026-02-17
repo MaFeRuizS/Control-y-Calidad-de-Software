@@ -9,38 +9,32 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("Game Settings")]
+    [Header("Configuración del Juego")]
     public float elementFallSpeed = 2f;
     public int maxLives = 3;
-    public int elementsPerLevel = 15;
-    public float timeLimit = 120f;
+    public int elementsPerLevel = 15; // Condición 1: Meta de aciertos
+    public float timeLimit = 120f;    // Condición 2: Límite de tiempo
 
-    [Header("UI References (Marcadores)")]
+    [Header("UI Marcadores")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI vidasText; 
     public TextMeshProUGUI aciertosText; 
 
-    [Header("UI Feedback (Aciertos/Errores)")]
+    [Header("UI Feedback")]
     public GameObject panelFeedback;
     public Image imagenFondoPopup;
     public Sprite imagenCorrecto;
     public Sprite imagenIncorrecto;
 
-    [Header("UI Final (Game Over)")]
-    public GameObject gameOverPanel;
-    public GameObject levelCompletePanel;
+    [Header("UI Final")]
+    public GameObject gameOverPanel;      // Para Tiempo/Vidas
+    public GameObject levelCompletePanel; // Para los 15 aciertos
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI finalAciertosText;
     public TextMeshProUGUI finalTimeText;
 
-    [Header("Configuración del Repechaje")]
-    public GameObject repechajePanel;
-    public List<PreguntaRepechaje> bancoPreguntas;
-    public TextMeshProUGUI textoEnunciado;
-    public TextMeshProUGUI[] textosBotonesOpciones;
-
-    [Header("Gameplay Connections")]
+    [Header("Conexiones")]
     public GeneradorInteligente generador; 
     public List<RectTransform> categoryButtons;
 
@@ -49,8 +43,6 @@ public class GameManager : MonoBehaviour
     private int vidasActuales;
     private float tiempoRestante;
     private bool juegoPausado = false;
-    private bool repechajeUsado = false;
-    private int indicePreguntaActual;
 
     void Awake() {
         if (Instance == null) Instance = this;
@@ -62,11 +54,9 @@ public class GameManager : MonoBehaviour
         tiempoRestante = timeLimit;
         ActualizarInterfaz();
         
-        // Aseguramos que los paneles estén apagados al iniciar
         if(panelFeedback) panelFeedback.SetActive(false);
         if(gameOverPanel) gameOverPanel.SetActive(false);
         if(levelCompletePanel) levelCompletePanel.SetActive(false);
-        if(repechajePanel) repechajePanel.SetActive(false);
     }
 
     void Update() {
@@ -78,41 +68,15 @@ public class GameManager : MonoBehaviour
             tiempoRestante -= Time.deltaTime;
             ActualizarInterfaz();
         } else {
+            // CONDICIÓN 2: El tiempo se agota
             TerminarJuego(false);
         }
     }
 
-    // --- FUNCIONES DE UTILIDAD ---
+    // ARREGLO CS1061: Proporciona la velocidad de caída a MathElement
     public float GetFallSpeed() => elementFallSpeed;
 
-    public void TerminarJuego() => TerminarJuego(false);
-
-    public void TerminarJuego(bool victoria) {
-        juegoPausado = true;
-        
-        if (generador != null) generador.DetenerGeneracion();
-
-        // Limpieza de objetos que quedaron en el aire
-        GameObject objetoEnVuelo = generador.GetObjetoActual();
-        if (objetoEnVuelo != null) Destroy(objetoEnVuelo);
-
-        // Seleccionamos qué panel mostrar
-        GameObject panelFinal = victoria ? levelCompletePanel : gameOverPanel;
-        
-        if (panelFinal) {
-            panelFinal.SetActive(true); // Aquí es donde se "dispara" el desorden si el diseño está mal
-
-            // CORRECCIÓN: Usar .ToString() y asegurar que las referencias existan
-            if(finalScoreText) finalScoreText.text = puntuacion.ToString();
-            if(finalAciertosText) finalAciertosText.text = aciertosActuales.ToString() + "/" + elementsPerLevel.ToString();
-            if(finalTimeText) {
-                float tiempoUsado = timeLimit - tiempoRestante;
-                finalTimeText.text = tiempoUsado.ToString("F0") + "s";
-            }
-        }
-    }
-
-    // --- LÓGICA DE CLASIFICACIÓN ---
+    // ARREGLO CS1503: Proporciona soporte para botones que envían índice (int)
     public void ClassifyElement(int index) {
         if (index >= 0 && index < categoryButtons.Count) {
             string tagBoton = categoryButtons[index].gameObject.tag;
@@ -136,69 +100,55 @@ public class GameManager : MonoBehaviour
         MostrarPopUp(imagenCorrecto);
         Destroy(obj);
         ActualizarInterfaz();
+
+        // CONDICIÓN 1: Victoria al llegar a la meta
         if (aciertosActuales >= elementsPerLevel) TerminarJuego(true);
     }
 
     public void ProcesarError() {
         if (juegoPausado) return;
-
         vidasActuales--;
         MostrarPopUp(imagenIncorrecto);
         
         GameObject objetoParaBorrar = generador.GetObjetoActual();
         if (objetoParaBorrar != null) Destroy(objetoParaBorrar);
-
+        
         ActualizarInterfaz();
 
-        if (vidasActuales <= 0) {
-            if (!repechajeUsado) ActivarRepechaje();
-            else TerminarJuego(false);
-        }
+        // CONDICIÓN 3: Derrota al perder todas las vidas
+        if (vidasActuales <= 0) TerminarJuego(false);
     }
 
-    // --- SISTEMA DE REPECHAJE ---
-    void ActivarRepechaje() {
-        juegoPausado = true;
-        repechajeUsado = true;
-        if(repechajePanel) {
-            repechajePanel.SetActive(true);
-            MostrarPreguntaAleatoria();
-        }
-    }
-
-    void MostrarPreguntaAleatoria() {
-        if (bancoPreguntas.Count > 0) {
-            indicePreguntaActual = Random.Range(0, bancoPreguntas.Count);
-            PreguntaRepechaje p = bancoPreguntas[indicePreguntaActual];
-            textoEnunciado.text = p.enunciado;
-            for (int i = 0; i < 4; i++) textosBotonesOpciones[i].text = p.opciones[i];
-        }
-    }
-
-    public void ComprobarRespuestaRepechaje(int indiceSeleccionado) {
-        if (indiceSeleccionado == bancoPreguntas[indicePreguntaActual].indiceCorrecto) {
-            vidasActuales = 1;
-            if (tiempoRestante < 10f) tiempoRestante += 15f; // Bonus de tiempo por acertar
-            repechajePanel.SetActive(false);
-            juegoPausado = false;
-            ActualizarInterfaz();
-        } else {
-            repechajePanel.SetActive(false);
-            TerminarJuego(false);
-        }
-    }
-
-    // --- UI Y FEEDBACK ---
+    // ARREGLO CS0029: Conversión correcta de números a texto y formato 0/15
     void ActualizarInterfaz() {
-        // Usamos .ToString() para convertir el número a texto correctamente
-        if (scoreText) scoreText.text = puntuacion.ToString();
-        if (vidasText) vidasText.text = vidasActuales.ToString();
+        if (scoreText) scoreText.text = "Puntos: " + puntuacion.ToString();
+        if (vidasText) vidasText.text = "Vidas:" + vidasActuales.ToString();
         if (aciertosText) aciertosText.text = aciertosActuales.ToString() + "/" + elementsPerLevel.ToString();
         
         if (timeText) {
             int min = Mathf.FloorToInt(tiempoRestante / 60);
             int seg = Mathf.FloorToInt(tiempoRestante % 60);
             timeText.text = string.Format("{0:00}:{1:00}", min, seg);
+        }
+    }
+
+    public void TerminarJuego(bool victoria) {
+        if (juegoPausado) return;
+        juegoPausado = true;
+
+        if (generador != null) generador.DetenerGeneracion();
+
+        GameObject objetoEnVuelo = generador.GetObjetoActual();
+        if (objetoEnVuelo != null) Destroy(objetoEnVuelo);
+
+        GameObject panelFinal = victoria ? levelCompletePanel : gameOverPanel;
+        
+        if (panelFinal) {
+            panelFinal.SetActive(true);
+            if(finalScoreText) finalScoreText.text = puntuacion.ToString();
+            if (finalAciertosText) finalAciertosText.text = aciertosActuales.ToString() + "/" + elementsPerLevel.ToString();
+            float tiempoUsado = timeLimit - tiempoRestante;
+            if(finalTimeText) finalTimeText.text = tiempoUsado.ToString("F0") + "s";
         }
     }
 
@@ -217,11 +167,4 @@ public class GameManager : MonoBehaviour
     }
 
     public void RestartGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-}
-
-[System.Serializable]
-public class PreguntaRepechaje {
-    public string enunciado;
-    public string[] opciones; 
-    public int indiceCorrecto; 
 }

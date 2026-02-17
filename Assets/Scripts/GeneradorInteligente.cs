@@ -5,69 +5,58 @@ using System.Collections.Generic;
 public class GeneradorInteligente : MonoBehaviour
 {
     [Header("Configuración de Spawning")]
-    public List<GameObject> prefabsResiduos; // Tu lista original de 20
+    public List<GameObject> prefabsResiduos; 
     public float tiempoEntreSpawns = 3f;
     public Transform puntoDeSpawn;
 
-    // LISTA AUXILIAR PARA EL BARAJEO
-    private List<GameObject> residuosDisponibles = new List<GameObject>();
+    [Header("Área de Caída")]
+    public float rangoX = 8f; // Ajustar según el ancho de tu Canvas
+
+    private List<GameObject> bolsaDeTrabajo = new List<GameObject>();
     private GameObject objetoActual;
     private bool puedeGenerar = true;
 
-    void Start()
-    {
+    void Start() {
         if (puntoDeSpawn == null) puntoDeSpawn = transform;
-        
-        // Llenamos y barajamos la lista por primera vez
-        PrepararNuevaTanda();
+        PrepararBolsa();
         StartCoroutine(RutinaGeneracion());
     }
 
-    void PrepararNuevaTanda()
-    {
-        // Creamos una copia de la lista original
-        residuosDisponibles = new List<GameObject>(prefabsResiduos);
-        
-        // Algoritmo de barajeo (Fisher-Yates)
-        for (int i = 0; i < residuosDisponibles.Count; i++)
-        {
-            GameObject temp = residuosDisponibles[i];
-            int randomIndex = Random.Range(i, residuosDisponibles.Count);
-            residuosDisponibles[i] = residuosDisponibles[randomIndex];
-            residuosDisponibles[randomIndex] = temp;
+    void PrepararBolsa() {
+        bolsaDeTrabajo = new List<GameObject>(prefabsResiduos);
+        // Mezclado Fisher-Yates para evitar repeticiones
+        for (int i = 0; i < bolsaDeTrabajo.Count; i++) {
+            GameObject temp = bolsaDeTrabajo[i];
+            int randomIndex = Random.Range(i, bolsaDeTrabajo.Count);
+            bolsaDeTrabajo[i] = bolsaDeTrabajo[randomIndex];
+            bolsaDeTrabajo[randomIndex] = temp;
         }
-        Debug.Log("Nueva tanda de " + residuosDisponibles.Count + " residuos barajada.");
     }
 
-    IEnumerator RutinaGeneracion()
-    {
-        while (puedeGenerar)
-        {
-            if (objetoActual == null)
-            {
-                GenerarResiduo();
+    IEnumerator RutinaGeneracion() {
+        while (puedeGenerar) {
+            if (objetoActual == null) {
+                if (bolsaDeTrabajo.Count == 0) PrepararBolsa();
+
+                // Cálculo de posición aleatoria en el eje X
+                float spawnX = Random.Range(-rangoX, rangoX);
+                Vector3 spawnPos = new Vector3(puntoDeSpawn.position.x + spawnX, puntoDeSpawn.position.y, puntoDeSpawn.position.z);
+
+                GameObject prefab = bolsaDeTrabajo[0];
+                bolsaDeTrabajo.RemoveAt(0);
+                objetoActual = Instantiate(prefab, spawnPos, Quaternion.identity);
             }
             yield return new WaitForSeconds(tiempoEntreSpawns);
         }
     }
 
-    void GenerarResiduo()
-    {
-        if (prefabsResiduos.Count == 0) return;
-
-        // Si se nos acabaron los objetos de la tanda actual, barajamos de nuevo
-        if (residuosDisponibles.Count == 0)
-        {
-            PrepararNuevaTanda();
-        }
-
-        // Tomamos el primer objeto de la lista barajada y lo eliminamos de "disponibles"
-        GameObject prefabAElegir = residuosDisponibles[0];
-        residuosDisponibles.RemoveAt(0);
-
-        objetoActual = Instantiate(prefabAElegir, puntoDeSpawn.position, Quaternion.identity);
-    }
-
     public void DetenerGeneracion() => puedeGenerar = false;
     public GameObject GetObjetoActual() => objetoActual;
+
+    void OnDrawGizmos() {
+        if (puntoDeSpawn != null) {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(puntoDeSpawn.position, new Vector3(rangoX * 2, 0.5f, 0.5f));
+        }
+    }
 }
