@@ -5,72 +5,69 @@ using System.Collections.Generic;
 public class GeneradorInteligente : MonoBehaviour
 {
     [Header("Configuración de Spawning")]
-    [Tooltip("Lista de prefabs de residuos que aparecerán en el juego.")]
-    public List<GameObject> prefabsResiduos;
-    
-    [Tooltip("Tiempo base entre cada aparición.")]
+    public List<GameObject> prefabsResiduos; // Tu lista original de 20
     public float tiempoEntreSpawns = 3f;
-    
-    [Tooltip("Punto exacto donde aparecerán los objetos.")]
     public Transform puntoDeSpawn;
 
+    // LISTA AUXILIAR PARA EL BARAJEO
+    private List<GameObject> residuosDisponibles = new List<GameObject>();
     private GameObject objetoActual;
     private bool puedeGenerar = true;
 
     void Start()
     {
-        // Validación de seguridad: Si no se asigna un punto, se usa la posición del script
-        if (puntoDeSpawn == null)
-        {
-            Debug.LogWarning("Punto de Spawn no asignado. Usando posición de: " + gameObject.name);
-            puntoDeSpawn = transform;
-        }
-
-        // Validación de lista vacía
-        if (prefabsResiduos == null || prefabsResiduos.Count == 0)
-        {
-            Debug.LogError("¡La lista de prefabs está vacía! Añade objetos en el Inspector.");
-            puedeGenerar = false;
-            return;
-        }
-
+        if (puntoDeSpawn == null) puntoDeSpawn = transform;
+        
+        // Llenamos y barajamos la lista por primera vez
+        PrepararNuevaTanda();
         StartCoroutine(RutinaGeneracion());
+    }
+
+    void PrepararNuevaTanda()
+    {
+        // Creamos una copia de la lista original
+        residuosDisponibles = new List<GameObject>(prefabsResiduos);
+        
+        // Algoritmo de barajeo (Fisher-Yates)
+        for (int i = 0; i < residuosDisponibles.Count; i++)
+        {
+            GameObject temp = residuosDisponibles[i];
+            int randomIndex = Random.Range(i, residuosDisponibles.Count);
+            residuosDisponibles[i] = residuosDisponibles[randomIndex];
+            residuosDisponibles[randomIndex] = temp;
+        }
+        Debug.Log("Nueva tanda de " + residuosDisponibles.Count + " residuos barajada.");
     }
 
     IEnumerator RutinaGeneracion()
     {
         while (puedeGenerar)
         {
-            // Solo generamos si el objeto anterior ya no está (fue recolectado o destruido)
             if (objetoActual == null)
             {
                 GenerarResiduo();
             }
-
-            // Agregamos una pequeña variación de tiempo para que no sea predecible
-            float variacion = Random.Range(-0.5f, 0.5f);
-            yield return new WaitForSeconds(Mathf.Max(0.1f, tiempoEntreSpawns + variacion));
+            yield return new WaitForSeconds(tiempoEntreSpawns);
         }
     }
 
     void GenerarResiduo()
     {
-        int indiceAleatorio = Random.Range(0, prefabsResiduos.Count);
-        
-        // Instancia el objeto y guarda la referencia en 'objetoActual'
-        objetoActual = Instantiate(prefabsResiduos[indiceAleatorio], puntoDeSpawn.position, Quaternion.identity);
+        if (prefabsResiduos.Count == 0) return;
+
+        // Si se nos acabaron los objetos de la tanda actual, barajamos de nuevo
+        if (residuosDisponibles.Count == 0)
+        {
+            PrepararNuevaTanda();
+        }
+
+        // Tomamos el primer objeto de la lista barajada y lo eliminamos de "disponibles"
+        GameObject prefabAElegir = residuosDisponibles[0];
+        residuosDisponibles.RemoveAt(0);
+
+        objetoActual = Instantiate(prefabAElegir, puntoDeSpawn.position, Quaternion.identity);
     }
 
-    // Método para ser llamado por el GameManager cuando el jugador pierde o gana
-    public void DetenerGeneracion()
-    {
-        puedeGenerar = false;
-        StopAllCoroutines();
-        Debug.Log("<color=yellow>Sistema de generación detenido.</color>");
-    }
-
-    public GameObject GetObjetoActual()
-    {
-        return objetoActual;
-    }
+    public void DetenerGeneracion() => puedeGenerar = false;
+    public GameObject GetObjetoActual() => objetoActual;
 }
