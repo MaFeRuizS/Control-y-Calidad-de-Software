@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3391995885676154860}
   - component: {fileID: 5367713741107699290}
   m_Layer: 0
-  m_Name: c_icon
-  m_TagString: Metales
+  m_Name: calcetin_icon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 1320043388886342812}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.055, y: -1.616, z: 0}
-  m_LocalScale: {x: 1.4404052, y: 1.327131, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6247559473503421261}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 147240546670759909, guid: 3903967b8038651408ba9c6dcec402a5, type: 3}
+  m_Sprite: {fileID: -7694052594916299164, guid: b463d915085567b468e58532cc32636f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,8 +104,8 @@ GameObject:
   - component: {fileID: 6176942659827375950}
   - component: {fileID: 934551320591810815}
   m_Layer: 0
-  m_Name: Prefab_huevo
-  m_TagString: "Org\xE1nico"
+  m_Name: Prefab_calcetines 1
+  m_TagString: "Inorg\xE1nico"
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 8550060252874844261}
   - component: {fileID: 6814403294734847181}
   m_Layer: 0
-  m_Name: text_c
+  m_Name: text_calcetin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,8 +293,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.187, y: -5.165}
-  m_SizeDelta: {x: 11.402, y: 2.492}
+  m_AnchoredPosition: {x: -0.232, y: -5.263}
+  m_SizeDelta: {x: 11.312, y: 3.225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8550060252874844261
 MeshRenderer:
@@ -365,7 +365,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Huevos
+  m_text: Calcetines
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 52e00852d93982048b958cf98b7504e1, type: 2}
   m_sharedMaterial: {fileID: -7121702844033472755, guid: 52e00852d93982048b958cf98b7504e1, type: 2}
