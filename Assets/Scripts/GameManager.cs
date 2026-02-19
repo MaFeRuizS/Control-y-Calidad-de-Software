@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     [Header("Conexiones")]
     public GeneradorInteligente generador; 
     public List<RectTransform> categoryButtons;
+    
 
     private int puntuacion = 0;
     private int aciertosActuales = 0;
@@ -150,6 +151,16 @@ public class GameManager : MonoBehaviour
             float tiempoUsado = timeLimit - tiempoRestante;
             if(finalTimeText) finalTimeText.text = tiempoUsado.ToString("F0") + "s";
         }
+    }
+
+    public void ReiniciarJuego() 
+    {
+        // 1. IMPORTANTE: Si pausaste el juego con Time.timeScale = 0, 
+        // debes devolverlo a 1 o el juego se quedará congelado al reiniciar.
+        Time.timeScale = 1f;
+
+        // 2. Cargamos la escena actual otra vez
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void MostrarPopUp(Sprite diseño) {
