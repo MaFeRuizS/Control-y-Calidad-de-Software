@@ -37,13 +37,16 @@ public class GameManager : MonoBehaviour
     [Header("Conexiones")]
     public GeneradorInteligente generador; 
     public List<RectTransform> categoryButtons;
-    
 
+    [Header("UI Panels")]
+    public GameObject pausePanel; // Aquí arrastraremos tu panel
+    
+    // --- VARIABLES PRIVADAS (Ya sin duplicados) ---
+    private bool juegoPausado = false;
     private int puntuacion = 0;
     private int aciertosActuales = 0;
     private int vidasActuales;
     private float tiempoRestante;
-    private bool juegoPausado = false;
 
     void Awake() {
         if (Instance == null) Instance = this;
@@ -53,15 +56,24 @@ public class GameManager : MonoBehaviour
     void Start() {
         vidasActuales = maxLives;
         tiempoRestante = timeLimit;
+        juegoPausado = false;
+        Time.timeScale = 1f; // Aseguramos que el tiempo fluya al iniciar
+
         ActualizarInterfaz();
         
+        // Apagamos todos los paneles al iniciar
         if(panelFeedback) panelFeedback.SetActive(false);
         if(gameOverPanel) gameOverPanel.SetActive(false);
         if(levelCompletePanel) levelCompletePanel.SetActive(false);
+        if(pausePanel) pausePanel.SetActive(false); 
     }
 
+    // --- UPDATE UNIFICADO ---
     void Update() {
-        if (!juegoPausado) ManejarCronometro();
+        // 1. Manejar el cronómetro solo si el juego NO está pausado
+        if (!juegoPausado) {
+            ManejarCronometro();
+        }
     }
 
     void ManejarCronometro() {
@@ -74,10 +86,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ARREGLO CS1061: Proporciona la velocidad de caída a MathElement
     public float GetFallSpeed() => elementFallSpeed;
 
-    // ARREGLO CS1503: Proporciona soporte para botones que envían índice (int)
     public void ClassifyElement(int index) {
         if (index >= 0 && index < categoryButtons.Count) {
             string tagBoton = categoryButtons[index].gameObject.tag;
@@ -86,7 +96,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void ClassifyElement(string tagBoton) {
-        if (juegoPausado) return;
+        if (juegoPausado) return; // Si está pausado, los botones no hacen nada
         
         GameObject objetoActual = generador.GetObjetoActual();
         if (objetoActual != null) {
@@ -120,7 +130,6 @@ public class GameManager : MonoBehaviour
         if (vidasActuales <= 0) TerminarJuego(false);
     }
 
-    // ARREGLO CS0029: Conversión correcta de números a texto y formato 0/15
     void ActualizarInterfaz() {
         if (scoreText) scoreText.text = "Puntos: " + puntuacion.ToString();
         if (vidasText) vidasText.text = "Vidas:" + vidasActuales.ToString();
@@ -135,7 +144,9 @@ public class GameManager : MonoBehaviour
 
     public void TerminarJuego(bool victoria) {
         if (juegoPausado) return;
+        
         juegoPausado = true;
+        Time.timeScale = 0f; // Congela el juego al terminar la partida
 
         if (generador != null) generador.DetenerGeneracion();
 
@@ -153,15 +164,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReiniciarJuego() 
-    {
-        // 1. IMPORTANTE: Si pausaste el juego con Time.timeScale = 0, 
-        // debes devolverlo a 1 o el juego se quedará congelado al reiniciar.
-        Time.timeScale = 1f;
+    // ==========================================
+    // --- FUNCIONES DE PAUSA Y MENÚS ---
+    // ==========================================
 
-        // 2. Cargamos la escena actual otra vez
+    public void PausarJuego() {
+        juegoPausado = true;
+        Time.timeScale = 0f; // Congela el tiempo (los residuos dejan de caer)
+        if(pausePanel) pausePanel.SetActive(true); // Muestra el panel
+    }
+
+    public void ReanudarJuego() {
+        juegoPausado = false;
+        Time.timeScale = 1f; // Descongela el tiempo
+        if(pausePanel) pausePanel.SetActive(false); // Oculta el panel
+    }
+
+    public void ReiniciarJuego() {
+        Time.timeScale = 1f; // Vital: Descongelar antes de recargar la escena
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    // Mantenemos esta por si ya la habías conectado a algún otro botón viejo
+    public void RestartGame() {
+        ReiniciarJuego(); 
+    }
+
+    // ==========================================
+    // --- FUNCIONES DE FEEDBACK (POP-UPS) ---
+    // ==========================================
 
     void MostrarPopUp(Sprite diseño) {
         if (imagenFondoPopup && panelFeedback) {
@@ -176,6 +207,4 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.8f);
         if(panelFeedback) panelFeedback.SetActive(false);
     }
-
-    public void RestartGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 }
