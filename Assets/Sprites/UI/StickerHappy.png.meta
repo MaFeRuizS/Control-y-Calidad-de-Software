@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0168a2d40a1e9ab4f92e595506f7622c
+guid: 8f5858ecd2c350d43914f835cc7dfed4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2237867171020274472
-    second: Panelpause (1)_0
+      213: -2232321612467673431
+    second: StickerHappy_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Panelpause (1)_0
+      name: StickerHappy_0
       rect:
         serializedVersion: 2
-        x: 403
-        y: 149
-        width: 1155
-        height: 775
+        x: 193
+        y: 54
+        width: 694
+        height: 931
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 82bfb27d5508e0f10800000000000000
-      internalID: 2237867171020274472
+      spriteID: 9a6ef6022533501e0800000000000000
+      internalID: -2232321612467673431
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Panelpause (1)_0: 2237867171020274472
+      StickerHappy_0: -2232321612467673431
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

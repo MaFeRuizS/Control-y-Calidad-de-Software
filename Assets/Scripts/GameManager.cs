@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     [Header("Configuración del Juego")]
     public float elementFallSpeed = 2f;
     public int maxLives = 3;
-    public int elementsPerLevel = 15; // Condición 1: Meta de aciertos
-    public float timeLimit = 120f;    // Condición 2: Límite de tiempo
+    public int elementsPerLevel = 15; 
+    public float timeLimit = 120f; 
 
     [Header("UI Marcadores")]
     public TextMeshProUGUI scoreText;
@@ -28,8 +28,8 @@ public class GameManager : MonoBehaviour
     public Sprite imagenIncorrecto;
 
     [Header("UI Final")]
-    public GameObject gameOverPanel;      // Para Tiempo/Vidas
-    public GameObject levelCompletePanel; // Para los 15 aciertos
+    public GameObject gameOverPanel;      
+    public GameObject levelCompletePanel;
     public TextMeshProUGUI finalScoreText;
     public TextMeshProUGUI finalAciertosText;
     public TextMeshProUGUI finalTimeText;
@@ -38,10 +38,15 @@ public class GameManager : MonoBehaviour
     public GeneradorInteligente generador; 
     public List<RectTransform> categoryButtons;
 
-    [Header("UI Panels")]
-    public GameObject pausePanel; // Aquí arrastraremos tu panel
+    [Header("UI Panels y Navegación Joystick")]
+    public GameObject pausePanel;
+    public GameObject primerBotonPausa;
+    // --- NUEVAS VARIABLES PARA EL JOYSTICK ---
+    public GameObject botonPausaHUD; // El botón de pausa que está en la pantalla principal jugando
+    public GameObject primerBotonGameOver; // El botón "Reiniciar" de tu panel de Game Over
+    public GameObject primerBotonVictoria;
     
-    // --- VARIABLES PRIVADAS (Ya sin duplicados) ---
+    // --- VARIABLES PRIVADAS 
     private bool juegoPausado = false;
     private int puntuacion = 0;
     private int aciertosActuales = 0;
@@ -57,20 +62,22 @@ public class GameManager : MonoBehaviour
         vidasActuales = maxLives;
         tiempoRestante = timeLimit;
         juegoPausado = false;
-        Time.timeScale = 1f; // Aseguramos que el tiempo fluya al iniciar
+        Time.timeScale = 1f; 
 
         ActualizarInterfaz();
         
-        // Apagamos todos los paneles al iniciar
         if(panelFeedback) panelFeedback.SetActive(false);
         if(gameOverPanel) gameOverPanel.SetActive(false);
         if(levelCompletePanel) levelCompletePanel.SetActive(false);
         if(pausePanel) pausePanel.SetActive(false); 
+
+        // --- MAGIA DEL JOYSTICK: Al iniciar el juego, seleccionamos el botón de pausa de la pantalla principal ---
+        if(botonPausaHUD) {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(botonPausaHUD);
+        }
     }
 
-    // --- UPDATE UNIFICADO ---
     void Update() {
-        // 1. Manejar el cronómetro solo si el juego NO está pausado
         if (!juegoPausado) {
             ManejarCronometro();
         }
@@ -81,7 +88,6 @@ public class GameManager : MonoBehaviour
             tiempoRestante -= Time.deltaTime;
             ActualizarInterfaz();
         } else {
-            // CONDICIÓN 2: El tiempo se agota
             TerminarJuego(false);
         }
     }
@@ -96,7 +102,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void ClassifyElement(string tagBoton) {
-        if (juegoPausado) return; // Si está pausado, los botones no hacen nada
+        if (juegoPausado) return; 
         
         GameObject objetoActual = generador.GetObjetoActual();
         if (objetoActual != null) {
@@ -112,7 +118,6 @@ public class GameManager : MonoBehaviour
         Destroy(obj);
         ActualizarInterfaz();
 
-        // CONDICIÓN 1: Victoria al llegar a la meta
         if (aciertosActuales >= elementsPerLevel) TerminarJuego(true);
     }
 
@@ -126,7 +131,6 @@ public class GameManager : MonoBehaviour
         
         ActualizarInterfaz();
 
-        // CONDICIÓN 3: Derrota al perder todas las vidas
         if (vidasActuales <= 0) TerminarJuego(false);
     }
 
@@ -146,7 +150,7 @@ public class GameManager : MonoBehaviour
         if (juegoPausado) return;
         
         juegoPausado = true;
-        Time.timeScale = 0f; // Congela el juego al terminar la partida
+        Time.timeScale = 0f; 
 
         if (generador != null) generador.DetenerGeneracion();
 
@@ -161,38 +165,45 @@ public class GameManager : MonoBehaviour
             if (finalAciertosText) finalAciertosText.text = aciertosActuales.ToString() + "/" + elementsPerLevel.ToString();
             float tiempoUsado = timeLimit - tiempoRestante;
             if(finalTimeText) finalTimeText.text = tiempoUsado.ToString("F0") + "s";
+
+            // --- MAGIA DEL JOYSTICK: Pasamos el control al panel de Game Over o Victoria ---
+            GameObject botonFinal = victoria ? primerBotonVictoria : primerBotonGameOver;
+            if(botonFinal) {
+                UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(botonFinal);
+            }
         }
     }
 
-    // ==========================================
-    // --- FUNCIONES DE PAUSA Y MENÚS ---
-    // ==========================================
-
     public void PausarJuego() {
         juegoPausado = true;
-        Time.timeScale = 0f; // Congela el tiempo (los residuos dejan de caer)
-        if(pausePanel) pausePanel.SetActive(true); // Muestra el panel
+        Time.timeScale = 0f; 
+        if(pausePanel) pausePanel.SetActive(true); 
+
+        // --- MAGIA DEL JOYSTICK: Pasamos el control al menú de pausa ---
+        if(primerBotonPausa) {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(primerBotonPausa);
+        }
     }
 
     public void ReanudarJuego() {
         juegoPausado = false;
-        Time.timeScale = 1f; // Descongela el tiempo
-        if(pausePanel) pausePanel.SetActive(false); // Oculta el panel
+        Time.timeScale = 1f; 
+        if(pausePanel) pausePanel.SetActive(false); 
+
+        // --- MAGIA DEL JOYSTICK: Devolvemos el control al botón de la pantalla principal ---
+        if(botonPausaHUD) {
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(botonPausaHUD);
+        }
     }
 
     public void ReiniciarJuego() {
-        Time.timeScale = 1f; // Vital: Descongelar antes de recargar la escena
+        Time.timeScale = 1f; 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Mantenemos esta por si ya la habías conectado a algún otro botón viejo
     public void RestartGame() {
         ReiniciarJuego(); 
     }
-
-    // ==========================================
-    // --- FUNCIONES DE FEEDBACK (POP-UPS) ---
-    // ==========================================
 
     void MostrarPopUp(Sprite diseño) {
         if (imagenFondoPopup && panelFeedback) {
