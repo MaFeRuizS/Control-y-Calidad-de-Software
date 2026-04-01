@@ -4,10 +4,28 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - "Org\xE1nico"
-  - "Inorg\xE1nico"
-  - Reciclable
-  - Metales
+  - CirculoGrande
+  - EstrellaGrande
+  - TrianguloGrande
+  - RectanguloGrande
+  - EstrellaPequeno
+  - CirculoPequeno
+  - TrianguloPequeno
+  - RectanguloPequeno
+  - UIPatronFigure
+  - UIIncognita
+  - Rectangulo
+  - Estrella
+  - Circulo
+  - Triangulo
+  - CirculoRosaGrande
+  - TrianguloTurquesaGrande
+  - EstrellaNaranjaGrande
+  - RectanguloMoradoGrande
+  - CirculoRosaPequeno
+  - TrianguloTurquesaPequeno
+  - EstrellaNaranjePequeno
+  - RectanguloMoradoPequeno
   layers:
   - Default
   - TransparentFX
