@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 500310874}
   - component: {fileID: 500310876}
   - component: {fileID: 500310875}
+  - component: {fileID: 500310877}
   m_Layer: 5
   m_Name: nivel1
   m_TagString: Untagged
@@ -731,6 +732,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500310873}
   m_CullTransparentMesh: 1
+--- !u!114 &500310877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500310873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 500310875}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1360459085}
+        m_TargetAssemblyTypeName: NavegacionEscenas, Assembly-CSharp
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: lluvia_ciencias
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &534274745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1744,6 +1801,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177261241}
   m_CullTransparentMesh: 1
+--- !u!1001 &1360459084
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 177.55077
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 103.11348
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292869202155439151, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6939977998346492551, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+      propertyPath: m_Name
+      value: NavegacionEscenas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+--- !u!114 &1360459085 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7051736408762633848, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+  m_PrefabInstance: {fileID: 1360459084}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a04e8bf93b04a15846f28e62e901cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NavegacionEscenas
 --- !u!1 &1456840122
 GameObject:
   m_ObjectHideFlags: 0
@@ -2987,7 +3112,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1959189086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1360459085}
+        m_TargetAssemblyTypeName: NavegacionEscenas, Assembly-CSharp
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1959189086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3033,3 +3170,4 @@ SceneRoots:
   - {fileID: 276895796}
   - {fileID: 333153457}
   - {fileID: 1665516025}
+  - {fileID: 1360459084}
