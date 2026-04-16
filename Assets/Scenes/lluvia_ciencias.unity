@@ -7078,7 +7078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dddf0dd39e5699944b04a5d4b397ab98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControladorESP32
-  ipESP32: 192.168.1.80
+  ipESP32: 1.82.125.154
   tiempoActualizacion: 0.1
   uiBotonAmarillo_Metales: {fileID: 193101552}
   uiBotonRojo_Organico: {fileID: 145191732}
