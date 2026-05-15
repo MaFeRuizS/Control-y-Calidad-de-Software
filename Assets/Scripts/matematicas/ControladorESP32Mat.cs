@@ -1,27 +1,10 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems; 
 
-[System.Serializable]
-public class DatosControlMatematicas
-{
-    public int joyX;
-    public int joyY;
-    public int joyBtn;
-    public int A;
-    public int B;
-    public int X;
-    public int Y;
-}
-
 public class ControladorESP32Mat : MonoBehaviour
 {
-    [Header("Configuración de Red")]
-    public string ipESP32 = "192.168.1.80";
-    public float tiempoActualizacion = 0.1f;
-
     [Header("Botones Matemáticas (Arrastra tus botones aquí)")]
     public Button uiBotonEstrella;
     public Button uiBotonCirculo;
@@ -32,7 +15,6 @@ public class ControladorESP32Mat : MonoBehaviour
     public int umbralAlto = 3000; 
     public int umbralBajo = 1000; 
 
-    private string url;
     private DatosControlMatematicas estadoAnterior = new DatosControlMatematicas();
     
     private bool moviendoX = false;
@@ -40,65 +22,54 @@ public class ControladorESP32Mat : MonoBehaviour
 
     void Start()
     {
-        // ¡Aquí está la magia del Trim para evitar errores de espacios!
-        url = "http://" + ipESP32.Trim() + "/estado"; 
-        
+        // Inicializamos el estado anterior en 0 para evitar falsos clics al iniciar
         estadoAnterior.A = 0; 
         estadoAnterior.B = 0; 
         estadoAnterior.X = 0; 
         estadoAnterior.Y = 0;
         estadoAnterior.joyBtn = 0;
-        
-        StartCoroutine(LeerControlador());
     }
 
-    IEnumerator LeerControlador()
+    void Update()
     {
-        while (true)
-        {
-            using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
-            {
-                yield return webRequest.SendWebRequest();
+        // 1. Verificamos que el Manager Global exista (Vital por si corres la escena sola)
+        if (InputArcadeManager.Instance == null) return;
 
-                if (webRequest.result != UnityWebRequest.Result.ConnectionError && webRequest.result != UnityWebRequest.Result.ProtocolError)
-                {
-                    string json = webRequest.downloadHandler.text;
-                    DatosControlMatematicas estadoActual = JsonUtility.FromJson<DatosControlMatematicas>(json);
-                    
-                    ProcesarBotones(estadoActual);       // Lee botones físicos
-                    ProcesarNavegacionMenu(estadoActual); // Lee el joystick
-                    
-                    estadoAnterior = estadoActual; 
-                }
-            }
-            yield return new WaitForSeconds(tiempoActualizacion);
-        }
+        // 2. Le pedimos el estado actual de los botones al Manager Global
+        DatosControlMatematicas estadoActual = InputArcadeManager.Instance.estadoActual;
+
+        // 3. Procesamos los inputs (El código de adentro ya se encarga de ver si hubo clics)
+        ProcesarBotones(estadoActual);       
+        ProcesarNavegacionMenu(estadoActual); 
+        
+        // 4. Guardamos el estado para compararlo en el siguiente frame
+        estadoAnterior = estadoActual; 
     }
 
     void ProcesarBotones(DatosControlMatematicas estadoActual)
     {
-        // 1. ESTRELLA -> Digamos que es el botón Amarillo (Y)
+        // 1. ESTRELLA -> Botón Amarillo (Y)
         if (estadoActual.Y == 1 && estadoAnterior.Y == 0) {
             if(uiBotonEstrella != null) uiBotonEstrella.Select();
             if(GameManagerMatematicas.Instance != null) 
                 GameManagerMatematicas.Instance.ClassifyElement("Estrella"); 
         }
         
-        // 2. CÍRCULO -> Digamos que es el botón Rojo (B)
+        // 2. CÍRCULO -> Botón Rojo (B)
         if (estadoActual.B == 1 && estadoAnterior.B == 0) {
             if(uiBotonCirculo != null) uiBotonCirculo.Select();
             if(GameManagerMatematicas.Instance != null) 
                 GameManagerMatematicas.Instance.ClassifyElement("Circulo");
         }
 
-        // 3. TRIÁNGULO -> Digamos que es el botón Verde (A)
+        // 3. TRIÁNGULO -> Botón Verde (A)
         if (estadoActual.A == 1 && estadoAnterior.A == 0) {
             if(uiBotonTriangulo != null) uiBotonTriangulo.Select();
             if(GameManagerMatematicas.Instance != null) 
                 GameManagerMatematicas.Instance.ClassifyElement("Triangulo");
         }
 
-        // 4. RECTÁNGULO -> Digamos que es el botón Azul (X)
+        // 4. RECTÁNGULO -> Botón Azul (X)
         if (estadoActual.X == 1 && estadoAnterior.X == 0) {
             if(uiBotonRectangulo != null) uiBotonRectangulo.Select();
             if(GameManagerMatematicas.Instance != null) 

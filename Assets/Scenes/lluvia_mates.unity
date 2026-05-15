@@ -7699,7 +7699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58f609350ef16c4bac42be6ab03c525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControladorESP32Mat
-  ipESP32: 192.168.1.80
+  ipESP32: 10.82.125.154
   tiempoActualizacion: 0.1
   uiBotonEstrella: {fileID: 193101552}
   uiBotonCirculo: {fileID: 145191732}
