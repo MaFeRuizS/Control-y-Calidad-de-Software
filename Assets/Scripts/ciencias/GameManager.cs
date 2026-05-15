@@ -67,8 +67,6 @@ public class GameManager : MonoBehaviour
     private int vidasActuales;
     private float tiempoRestante;
     
-    // --- NUEVA VARIABLE PARA LA MECÁNICA DE OBJETOS ---
-    private int objetosJugados = 0; 
 
     void Awake() {
         if (Instance == null) Instance = this;
@@ -79,8 +77,7 @@ public class GameManager : MonoBehaviour
         vidasActuales = maxLives;
         tiempoRestante = timeLimit;
         juegoPausado = false;
-        Time.timeScale = 1f; 
-        objetosJugados = 0; // Reiniciamos los objetos al empezar
+        Time.timeScale = 1f;
 
         ActualizarInterfaz();
         
@@ -89,7 +86,6 @@ public class GameManager : MonoBehaviour
         if(levelCompletePanel) levelCompletePanel.SetActive(false);
         if(pausePanel) pausePanel.SetActive(false); 
 
-        // --- MAGIA DEL JOYSTICK: Al iniciar el juego, seleccionamos el botón de pausa de la pantalla principal ---
         if(botonPausaHUD) {
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(botonPausaHUD);
         }

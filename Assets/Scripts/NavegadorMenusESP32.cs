@@ -8,7 +8,6 @@ public class NavegadorMenusESP32 : MonoBehaviour
     public int umbralAlto = 3000; 
     public int umbralBajo = 1000; 
 
-    // Opcional: Arrastra aquí el primer botón que quieres que se seleccione al abrir la escena
     [Header("Auto-Selección (Opcional)")]
     public GameObject primerBotonDeLaEscena; 
 
@@ -22,7 +21,6 @@ public class NavegadorMenusESP32 : MonoBehaviour
         estadoAnterior.joyX = 2048; // Centro aproximado
         estadoAnterior.joyY = 2048;
 
-        // Si asignaste un botón, lo selecciona automáticamente al entrar a la escena
         if (primerBotonDeLaEscena != null)
         {
             EventSystem.current.SetSelectedGameObject(primerBotonDeLaEscena);
@@ -31,9 +29,14 @@ public class NavegadorMenusESP32 : MonoBehaviour
 
     void Update()
     {
-        if (InputArcadeManager.Instance == null) return;
+        if (InputArcadeManager.Instance == null) {
+            Debug.LogWarning("ALERTA: No encuentro el InputArcadeManager en la escena.");
+            return;
+        }
 
         DatosControlMatematicas estadoActual = InputArcadeManager.Instance.estadoActual;
+
+        Debug.Log("Joystick X: " + estadoActual.joyX + " | Joystick Y: " + estadoActual.joyY);
 
         if (EventSystem.current.currentSelectedGameObject == null && primerBotonDeLaEscena != null)
         {
@@ -44,9 +47,7 @@ public class NavegadorMenusESP32 : MonoBehaviour
                 return; 
             }
         }
-        // ----------------------------
-
-        // Clic del Joystick
+        
         if (estadoActual.joyBtn == 1 && estadoAnterior.joyBtn == 0)
         {
             GameObject seleccionado = EventSystem.current.currentSelectedGameObject;

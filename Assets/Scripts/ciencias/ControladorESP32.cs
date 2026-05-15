@@ -15,7 +15,6 @@ public class ControladorESP32 : MonoBehaviour
     public int umbralAlto = 3000; 
     public int umbralBajo = 1000; 
 
-    // Usamos la misma estructura de datos del Manager Global
     private DatosControlMatematicas estadoAnterior = new DatosControlMatematicas();
     
     private bool moviendoX = false;
