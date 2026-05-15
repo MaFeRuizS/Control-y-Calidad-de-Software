@@ -7105,7 +7105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000014305, y: -10}
+  m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: 188.93, y: 92.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1659682206
@@ -7766,7 +7766,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: CodigoPrincipal::GestorRetroalimentacion
   txtTituloFeedback: {fileID: 501666131}
-  txtAciertosTotales: {fileID: 0}
+  txtAciertosTotales: {fileID: 1659682206}
   txtErrMetales: {fileID: 96296134}
   txtErrOrganicos: {fileID: 930080649}
   txtErrInorganicos: {fileID: 620035518}
@@ -8832,7 +8832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.03770538, y: 0}
   m_AnchorMax: {x: 0.99341077, y: 1}
-  m_AnchoredPosition: {x: -22.075745, y: 0}
+  m_AnchoredPosition: {x: -22.075928, y: 0}
   m_SizeDelta: {x: 118.2, y: 74.135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055238786

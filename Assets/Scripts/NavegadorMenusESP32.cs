@@ -35,9 +35,6 @@ public class NavegadorMenusESP32 : MonoBehaviour
 
         DatosControlMatematicas estadoActual = InputArcadeManager.Instance.estadoActual;
 
-        // --- EL CANDADO ANTIBALAS ---
-        // Si Unity "pierde" el botón seleccionado (por un clic accidental del mouse) 
-        // y el jugador mueve el joystick, forzamos a que seleccione el primer botón.
         if (EventSystem.current.currentSelectedGameObject == null && primerBotonDeLaEscena != null)
         {
             bool movioJoystick = estadoActual.joyX > umbralAlto || estadoActual.joyX < umbralBajo || 

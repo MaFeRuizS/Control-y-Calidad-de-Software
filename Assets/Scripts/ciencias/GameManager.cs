@@ -128,7 +128,6 @@ public class GameManager : MonoBehaviour
                 ProcesarAcierto(objetoActual);
             }
             else {
-                // Llamamos a ProcesarError vacío (asume que fue por clasificar mal)
                 ProcesarError();
             }
         }
@@ -137,14 +136,14 @@ public class GameManager : MonoBehaviour
     public void ProcesarAcierto(GameObject obj) {
         puntuacion += 10;
         aciertosActuales++;
-        objetosJugados++; // Sumamos a los objetos que ya pasaron
         
         MostrarPopUp(imagenCorrecto);
         Destroy(obj);
         ActualizarInterfaz();
 
-        // El juego termina si ya jugaron todos los elementos
-        if (objetosJugados >= elementsPerLevel) TerminarJuego(true);
+        if (aciertosActuales >= elementsPerLevel) {
+            TerminarJuego(true);
+        }
     }
 
     public void ProcesarError(bool fuePorCaida = false) {
@@ -159,10 +158,10 @@ public class GameManager : MonoBehaviour
             vidasActuales--; // Penalización por inactividad
         } else {
             puntuacion -= 5; // Penalización por error al clasificar
-            if (puntuacion < 0) puntuacion = 0; // Evita puntaje negativo
+            if (puntuacion < 0) puntuacion = 0; // Evitamos puntaje negativo
         }
         
-        objetosJugados++; 
+        // Eliminamos la suma de objetosJugados
         
         MostrarPopUp(imagenIncorrecto);
         
@@ -172,8 +171,6 @@ public class GameManager : MonoBehaviour
 
         if (vidasActuales <= 0) {
             TerminarJuego(false); 
-        } else if (objetosJugados >= elementsPerLevel) {
-            TerminarJuego(false); // Ponemos 'false' para forzar que abra la fachada de retroalimentación
         }
     }
 
@@ -205,7 +202,6 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel) {
             gameOverPanel.SetActive(true);
             
-            // Llenamos los datos del reporte final
             if(finalScoreText) finalScoreText.text = puntuacion.ToString();
             if (finalAciertosText) finalAciertosText.text = aciertosActuales.ToString();
             if(finalTimeText) finalTimeText.text = tiempoUsado.ToString("F0") + "s";
