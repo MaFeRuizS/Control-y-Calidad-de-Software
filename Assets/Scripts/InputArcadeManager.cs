@@ -5,8 +5,8 @@ using System.Collections;
 [System.Serializable]
 public class DatosControlMatematicas
 {
-    public int joyX;
-    public int joyY;
+    public int joyX = 2048;
+    public int joyY = 2048;
     public int joyBtn;
     public int A;
     public int B;

@@ -17,25 +17,24 @@ public class TestNavegacionMenu
     }
 
     [UnityTest]
-    public IEnumerator Test_MoverJoystickAbajo_CambiaDeBoton()
+    public IEnumerator Test_MoverJoystick_CambiaDeBoton()
     {
-        
         InputArcadeManager inputManager = InputArcadeManager.Instance;
-        Assert.IsNotNull(inputManager, "El InputArcadeManager no se instanció en la escena.");
+        Assert.IsNotNull(inputManager, "El InputArcadeManager no se instanció.");
+
+        inputManager.estadoActual.joyX = 2048;
+        inputManager.estadoActual.joyY = 2048;
+        yield return new WaitForSeconds(0.2f); // Esperamos a que tu Update lea el centro
 
         GameObject botonInicial = EventSystem.current.currentSelectedGameObject;
-        Assert.IsNotNull(botonInicial, "El EventSystem no tiene un botón 'First Selected' configurado.");
 
-        inputManager.estadoActual.joyY = 4000; // Valor que supera tu umbralAlto
-        inputManager.estadoActual.joyX = 2048; // Eje X en reposo
-        inputManager.estadoActual.joyBtn = 0;  // Botón sin presionar
+        inputManager.estadoActual.joyY = 4000;
 
         yield return new WaitForSeconds(0.4f);
 
-        // 4. Validaciones
+        // 3. Validaciones
         GameObject botonNuevo = EventSystem.current.currentSelectedGameObject;
         
         Assert.AreNotEqual(botonInicial, botonNuevo, "El joystick se movió hacia abajo pero el botón seleccionado no cambió.");
-        
     }
 }

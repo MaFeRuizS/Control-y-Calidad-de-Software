@@ -57,13 +57,15 @@ public class NavegadorMenusESP32 : MonoBehaviour
             }
         }
 
-        // Navegación X e Y
+        // Navegación X 
         if (estadoActual.joyX > umbralAlto && !moviendoX) { MoverUI(MoveDirection.Right); moviendoX = true; } 
         else if (estadoActual.joyX < umbralBajo && !moviendoX) { MoverUI(MoveDirection.Left); moviendoX = true; } 
         else if (estadoActual.joyX >= umbralBajo && estadoActual.joyX <= umbralAlto) { moviendoX = false; }
 
-        if (estadoActual.joyY > umbralAlto && !moviendoY) { MoverUI(MoveDirection.Up); moviendoY = true; } 
-        else if (estadoActual.joyY < umbralBajo && !moviendoY) { MoverUI(MoveDirection.Down); moviendoY = true; } 
+        // --- NAVEGACIÓN Y CORREGIDA ---
+        // Ahora si supera el umbral alto (ej. 4000), baja. Si baja del umbral bajo (ej. 0), sube.
+        if (estadoActual.joyY > umbralAlto && !moviendoY) { MoverUI(MoveDirection.Down); moviendoY = true; } 
+        else if (estadoActual.joyY < umbralBajo && !moviendoY) { MoverUI(MoveDirection.Up); moviendoY = true; } 
         else if (estadoActual.joyY >= umbralBajo && estadoActual.joyY <= umbralAlto) { moviendoY = false; }
 
         estadoAnterior = estadoActual;
