@@ -1140,7 +1140,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 189914621}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022658232}
+        m_TargetAssemblyTypeName: NavegacionEscenas, CodigoPrincipal
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &189914621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2953,7 +2965,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 683704270}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022658232}
+        m_TargetAssemblyTypeName: NavegacionEscenas, CodigoPrincipal
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &683704270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5106,7 +5130,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1312236964}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022658232}
+        m_TargetAssemblyTypeName: NavegacionEscenas, CodigoPrincipal
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1312236964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7603,7 +7639,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1843811849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022658232}
+        m_TargetAssemblyTypeName: NavegacionEscenas, CodigoPrincipal
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1843811849
 MonoBehaviour:
   m_ObjectHideFlags: 0
