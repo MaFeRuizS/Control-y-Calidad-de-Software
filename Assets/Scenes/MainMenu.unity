@@ -1015,8 +1015,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 858192947}
     m_SelectOnDown: {fileID: 1688678965}
-    m_SelectOnLeft: {fileID: 1138093059}
-    m_SelectOnRight: {fileID: 2090168949}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1286,8 +1286,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 2061941592}
     m_SelectOnDown: {fileID: 822417474}
-    m_SelectOnLeft: {fileID: 1138093059}
-    m_SelectOnRight: {fileID: 2090168949}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1734,9 +1734,9 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 1688678965}
     m_SelectOnDown: {fileID: 858192947}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 2061941592}
     m_SelectOnRight: {fileID: 2090168949}
   m_Transition: 1
   m_Colors:
@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NavegadorMenusESP32
   umbralAlto: 3000
   umbralBajo: 1000
-  primerBotonDeLaEscena: {fileID: 822417472}
+  primerBotonDeLaEscena: {fileID: 858192945}
 --- !u!4 &1145561808
 Transform:
   m_ObjectHideFlags: 0
@@ -2318,7 +2318,6 @@ GameObject:
   - component: {fileID: 1631277479}
   - component: {fileID: 1631277478}
   - component: {fileID: 1631277477}
-  - component: {fileID: 1631277480}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2387,21 +2386,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1631277480
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1631277476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41143f885b3fdd14e9da203a9f5d498d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: CodigoPrincipal::NavegadorMenusESP32
-  umbralAlto: 3000
-  umbralBajo: 1000
-  primerBotonDeLaEscena: {fileID: 858192945}
 --- !u!1 &1688678963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,8 +2443,8 @@ MonoBehaviour:
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 822417474}
     m_SelectOnDown: {fileID: 2061941592}
-    m_SelectOnLeft: {fileID: 1138093059}
-    m_SelectOnRight: {fileID: 2090168949}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2589,12 +2573,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 1688678965}
+    m_SelectOnDown: {fileID: 858192947}
+    m_SelectOnLeft: {fileID: 2090168949}
+    m_SelectOnRight: {fileID: 1138093059}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2744,10 +2728,10 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 1688678965}
     m_SelectOnDown: {fileID: 858192947}
-    m_SelectOnLeft: {fileID: 1138093059}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnLeft: {fileID: 2061941592}
+    m_SelectOnRight: {fileID: 1138093059}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
