@@ -1671,9 +1671,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 991324769}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PausarJuego
+      - m_Target: {fileID: 991324771}
+        m_TargetAssemblyTypeName: ControladorPartida, CodigoPrincipal
+        m_MethodName: AlternarPausa
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9132,7 +9132,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.03770538, y: 0}
   m_AnchorMax: {x: 0.99341077, y: 1}
-  m_AnchoredPosition: {x: -22.075928, y: 0}
+  m_AnchoredPosition: {x: -22.075989, y: 0}
   m_SizeDelta: {x: 118.2, y: 74.135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055238786

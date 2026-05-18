@@ -44,10 +44,6 @@ public class GameManager : MonoBehaviour
     public List<RectTransform> categoryButtons;
 
     [Header("UI Panels y Navegación Joystick")]
-    public GameObject pausePanel;
-    public GameObject primerBotonPausa;
-    // --- NUEVAS VARIABLES PARA EL JOYSTICK ---
-    public GameObject botonPausaHUD;
     public GameObject primerBotonGameOver; 
     public GameObject primerBotonVictoria;
     
@@ -76,22 +72,18 @@ public class GameManager : MonoBehaviour
     void Start() {
         vidasActuales = maxLives;
         tiempoRestante = timeLimit;
-        juegoPausado = false;
-        Time.timeScale = 1f;
+        // Asumimos que el juego inicia pausado hasta que el ControladorPartida termine el 3,2,1
+        juegoPausado = true; 
 
         ActualizarInterfaz();
         
         if(panelFeedback) panelFeedback.SetActive(false);
         if(gameOverPanel) gameOverPanel.SetActive(false);
         if(levelCompletePanel) levelCompletePanel.SetActive(false);
-        if(pausePanel) pausePanel.SetActive(false); 
-
-        if(botonPausaHUD) {
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(botonPausaHUD);
-        }
     }
 
     void Update() {
+        // Solo corre el tiempo si el nuevo Controlador Partida quitó la pausa
         if (!juegoPausado) {
             ManejarCronometro();
         }
@@ -151,13 +143,11 @@ public class GameManager : MonoBehaviour
         }
         
         if (fuePorCaida) {
-            vidasActuales--; // Penalización por inactividad
+            vidasActuales--; 
         } else {
-            puntuacion -= 5; // Penalización por error al clasificar
-            if (puntuacion < 0) puntuacion = 0; // Evitamos puntaje negativo
+            puntuacion -= 5; 
+            if (puntuacion < 0) puntuacion = 0; 
         }
-        
-        // Eliminamos la suma de objetosJugados
         
         MostrarPopUp(imagenIncorrecto);
         
@@ -194,7 +184,6 @@ public class GameManager : MonoBehaviour
 
         float tiempoUsado = timeLimit - tiempoRestante;
 
-        // --- UNIFICACIÓN DE PANELES ---
         if (gameOverPanel) {
             gameOverPanel.SetActive(true);
             
@@ -202,50 +191,14 @@ public class GameManager : MonoBehaviour
             if (finalAciertosText) finalAciertosText.text = aciertosActuales.ToString();
             if(finalTimeText) finalTimeText.text = tiempoUsado.ToString("F0") + "s";
 
-            // Joystick al botón de reintentar
             if(primerBotonGameOver) {
                 UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(primerBotonGameOver);
             }
         }
 
-        // Siempre apagamos el de victoria por si acaso
         if (levelCompletePanel) levelCompletePanel.SetActive(false);
 
-        // ¡LA FACHADA SIEMPRE SE ACTIVA! 
-        panelRetroalimentacion.MostrarResultados(puntuacion, aciertosActuales, erroresMetales, erroresOrganicos, erroresInorganicos, erroresReciclables);    }
-
-    public void PausarJuego() {
-        // 1.Si ya perdimos o ganamos, abortar misión inmediatamente
-        if ((gameOverPanel != null && gameOverPanel.activeSelf) || (levelCompletePanel != null && levelCompletePanel.activeSelf)) 
-        {
-            return;
-        }
-
-        // 2. CONGELAR VARIABLES Y TIEMPO
-        juegoPausado = true;
-        Time.timeScale = 0f;
-
-        if(pausePanel != null) 
-        {
-            pausePanel.SetActive(true);
-        }
-
-        // SELECCIONAR EL BOTÓN PARA EL MANDO/TECLADO
-        if(primerBotonPausa != null) 
-        {
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(primerBotonPausa);
-        }
-    }
-
-    public void ReanudarJuego() {
-        juegoPausado = false;
-        Time.timeScale = 1f; 
-        if(pausePanel) pausePanel.SetActive(false); 
-
-        // --- MAGIA DEL JOYSTICK: Devolvemos el control al botón de la pantalla principal ---
-        if(botonPausaHUD) {
-            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(botonPausaHUD);
-        }
+        panelRetroalimentacion.MostrarResultados(puntuacion, aciertosActuales, erroresMetales, erroresOrganicos, erroresInorganicos, erroresReciclables);    
     }
 
     public void ReiniciarJuego() {
@@ -273,27 +226,19 @@ public class GameManager : MonoBehaviour
 
    public void RegistrarError(string categoriaBasura)
     {
-        // Esta línea nos dirá exactamente qué palabra está leyendo Unity
         Debug.Log("Intentando registrar error para el tag: [" + categoriaBasura + "]"); 
 
         if (categoriaBasura == "Metales") {
             erroresMetales++;
-            Debug.Log("¡Éxito! Sumando a Metales. Total ahora: " + erroresMetales);
         }
         else if (categoriaBasura == "Organicos" || categoriaBasura == "Organico" || categoriaBasura == "Orgánico") {
             erroresOrganicos++;
-            Debug.Log("¡Éxito! Sumando a Orgánicos. Total ahora: " + erroresOrganicos);
         }
         else if (categoriaBasura == "Inorganicos" || categoriaBasura == "Inorganico" || categoriaBasura == "Inorgánico") {
             erroresInorganicos++;
-            Debug.Log("¡Éxito! Sumando a Inorgánicos. Total ahora: " + erroresInorganicos);
         }
         else if (categoriaBasura == "Reciclables" || categoriaBasura == "Reciclable") {
             erroresReciclables++;
-            Debug.Log("¡Éxito! Sumando a Reciclables. Total ahora: " + erroresReciclables);
-        }
-        else {
-            Debug.LogWarning("¡ALERTA! El tag '" + categoriaBasura + "' no pertenece a ninguna categoría de tu código.");
         }
     }
 }

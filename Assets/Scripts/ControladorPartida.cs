@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using UnityEngine.EventSystems; 
+using UnityEngine.EventSystems;
 
 public class ControladorPartida : MonoBehaviour
 {
@@ -13,17 +13,23 @@ public class ControladorPartida : MonoBehaviour
     [Header("Navegación de Pausa")]
     public GameObject primerBotonPausa;
 
-    private bool juegoIniciado = false;
+    [HideInInspector]
+    public bool juegoIniciado = false;
+
     private bool enPausa = false;
     private int estadoAnteriorBtn = 0;
 
     void Start()
     {
-        panelPausa.SetActive(false);
-        panelContador.SetActive(true);
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+
+        if (panelPausa) panelPausa.SetActive(false);
+        if (panelContador) panelContador.SetActive(true);
 
         Time.timeScale = 0f; 
-
         StartCoroutine(RutinaContador());
     }
 
@@ -41,39 +47,47 @@ public class ControladorPartida : MonoBehaviour
         textoContador.text = "¡A CLASIFICAR!";
         yield return new WaitForSecondsRealtime(0.5f);
 
-        panelContador.SetActive(false);
+        if (panelContador) panelContador.SetActive(false);
+        if (panelPausa) panelPausa.SetActive(false);
+        
         Time.timeScale = 1f; 
+        
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.juegoPausado = false;
+        }
         
         juegoIniciado = true; 
     }
 
     void Update()
     {
-        if (!juegoIniciado) return; 
+        if (InputArcadeManager.Instance == null) return;
 
-        if (InputArcadeManager.Instance != null)
+        int estadoActualBtn = InputArcadeManager.Instance.estadoActual.joyBtn;
+
+        if (juegoIniciado)
         {
-            int estadoActualBtn = InputArcadeManager.Instance.estadoActual.joyBtn;
-
             if (estadoActualBtn == 1 && estadoAnteriorBtn == 0)
             {
                 AlternarPausa();
             }
-            estadoAnteriorBtn = estadoActualBtn;
         }
+
+        estadoAnteriorBtn = estadoActualBtn;
     }
 
     public void AlternarPausa()
     {
         enPausa = !enPausa;
         
-        panelPausa.SetActive(enPausa);
+        if (panelPausa) panelPausa.SetActive(enPausa);
         
         Time.timeScale = enPausa ? 0f : 1f;
 
         if (enPausa && primerBotonPausa != null)
         {
-            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(null); 
             EventSystem.current.SetSelectedGameObject(primerBotonPausa);
         }
     }

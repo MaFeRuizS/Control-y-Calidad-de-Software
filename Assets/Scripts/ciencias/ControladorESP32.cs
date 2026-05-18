@@ -22,7 +22,6 @@ public class ControladorESP32 : MonoBehaviour
 
     void Start()
     {
-        // Inicializamos estados en 0
         estadoAnterior.A = 0; 
         estadoAnterior.B = 0; 
         estadoAnterior.X = 0; 
@@ -32,22 +31,21 @@ public class ControladorESP32 : MonoBehaviour
 
     void Update()
     {
-        // 1. Verificamos que el Manager Global exista
         if (InputArcadeManager.Instance == null) return;
 
-        // 2. Le pedimos el estado actual
         DatosControlMatematicas estadoActual = InputArcadeManager.Instance.estadoActual;
 
-        // 3. Procesamos los inputs
         ProcesarBotones(estadoActual);       
         ProcesarNavegacionMenu(estadoActual); 
         
-        // 4. Guardamos el estado
         estadoAnterior = estadoActual; 
     }
 
     void ProcesarBotones(DatosControlMatematicas estadoActual)
     {
+        ControladorPartida cp = FindObjectOfType<ControladorPartida>();
+        if (cp != null && !cp.juegoIniciado) return;
+
         // 1. METALES (Botón Amarillo -> Y)
         if (estadoActual.Y == 1 && estadoAnterior.Y == 0) {
             if(uiBotonAmarillo_Metales != null) uiBotonAmarillo_Metales.Select();
@@ -75,13 +73,14 @@ public class ControladorESP32 : MonoBehaviour
 
     void ProcesarNavegacionMenu(DatosControlMatematicas estadoActual)
     {
-        // 1. CLIC EN EL JOYSTICK PARA PAUSA/ENTER
+        // ESCUDO DE CONTEO: Si el contador está activo, ignoramos por completo el menú y los clics
+        ControladorPartida cp = FindObjectOfType<ControladorPartida>();
+        if (cp != null && !cp.juegoIniciado) return;
+
         if (estadoActual.joyBtn == 1 && estadoAnterior.joyBtn == 0)
         {
             if (Time.timeScale == 1f) 
             {
-                if(GameManager.Instance != null) 
-                    GameManager.Instance.PausarJuego();
             }
             else 
             {
@@ -93,7 +92,6 @@ public class ControladorESP32 : MonoBehaviour
             }
         }
 
-        // --- EL CANDADO MAESTRO PARA EL MOVIMIENTO ---
         if (Time.timeScale == 1f) return; 
 
         // 2. NAVEGACIÓN DERECHA / IZQUIERDA
