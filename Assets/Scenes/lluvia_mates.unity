@@ -4132,6 +4132,17 @@ MonoBehaviour:
   botonPausaHUD: {fileID: 190975704}
   primerBotonGameOver: {fileID: 1312236961}
   primerBotonVictoria: {fileID: 1843811846}
+--- !u!114 &1022658232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7051736408762633848, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+  m_PrefabInstance: {fileID: 1368410212}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a04e8bf93b04a15846f28e62e901cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NavegacionEscenas
 --- !u!1 &1032285097
 GameObject:
   m_ObjectHideFlags: 0
@@ -4290,7 +4301,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1116504672}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1022658232}
+        m_TargetAssemblyTypeName: NavegacionEscenas, CodigoPrincipal
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1116504672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7699,8 +7722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58f609350ef16c4bac42be6ab03c525, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControladorESP32Mat
-  ipESP32: 10.82.125.154
-  tiempoActualizacion: 0.1
   uiBotonEstrella: {fileID: 193101552}
   uiBotonCirculo: {fileID: 145191732}
   uiBotonTriangulo: {fileID: 449555980}

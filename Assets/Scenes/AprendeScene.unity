@@ -593,7 +593,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 935862549}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.1513571
+  m_Size: 0.15135707
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2127,7 +2127,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1545906626}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.2824859
+  m_Size: 0.28248587
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4467,7 +4467,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650.432, y: -203.81589}
+  m_AnchoredPosition: {x: 775.099, y: -157.13815}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &525368711
@@ -8370,8 +8370,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 650.432, y: -744.5397}
-  m_SizeDelta: {x: 1420, y: 0}
+  m_AnchoredPosition: {x: 775.099, y: -627.84534}
+  m_SizeDelta: {x: 1550.198, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079032602
 MonoBehaviour:
@@ -9393,7 +9393,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1297752472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1944823633}
+        m_TargetAssemblyTypeName: NavegacionEscenas, CodigoPrincipal
+        m_MethodName: IrAEscena
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1297752472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13886,7 +13898,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 805975702}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.24489206
+  m_Size: 0.24489205
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14250,6 +14262,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938599097}
   m_CullTransparentMesh: 1
+--- !u!114 &1944823633 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7051736408762633848, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
+  m_PrefabInstance: {fileID: 1151732596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a04e8bf93b04a15846f28e62e901cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NavegacionEscenas
 --- !u!1 &1948548490
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mapa_Pogreso.unity
     guid: 94b673f7ba6544afb9dd86934c0d27ad
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 789d0b5c31d0a42eaacca0aec5804cb7
+  - enabled: 1
+    path: Assets/Scenes/AprendeScene.unity
+    guid: f0ef855f71bbcb540b58fce68ab90394
+  - enabled: 1
+    path: Assets/Scenes/SettingsScene.unity
+    guid: a15996a4390b45e45b65fdfab839e1de
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
