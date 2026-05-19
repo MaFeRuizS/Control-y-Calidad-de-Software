@@ -19,12 +19,11 @@ public class InputArcadeManager : MonoBehaviour
     public static InputArcadeManager Instance;
 
     [Header("Configuración Global")]
-    public string ipESP32 = "192.168.1.71";
+    public string ipESP32 = "10.197.32.154";
     public DatosControlMatematicas estadoActual = new DatosControlMatematicas();
 
     void Awake()
     {
-        // PATRÓN SINGLETON: Si ya existe uno, se destruye el nuevo. Si no, este sobrevive.
         if (Instance == null)
         {
             Instance = this;

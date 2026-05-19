@@ -25,14 +25,13 @@ public class GestorRetroalimentacion : MonoBehaviour
     public string[] bancoInorganicos;
     public string[] bancoReciclables;
 
-    // <-- AQUÍ está la clave: le decimos que va a recibir un número llamado 'aciertos'
     public void MostrarResultados(int puntuacionFinal, int aciertos, int errMet, int errOrg, int errInorg, int errRec)
     {
         gameObject.SetActive(true);
 
         // Actualizamos el número de aciertos en pantalla
         if (txtAciertosTotales) {
-            txtAciertosTotales.text = aciertos.ToString() + " Aciertos";
+            txtAciertosTotales.text = aciertos.ToString();
         }
 
         // 1. Lógica del Avatar

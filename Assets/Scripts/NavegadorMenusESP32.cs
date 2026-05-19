@@ -36,7 +36,6 @@ public class NavegadorMenusESP32 : MonoBehaviour
 
         Debug.Log("Joystick X: " + estadoActual.joyX + " | Joystick Y: " + estadoActual.joyY);
 
-        // forzamos el inicio INMEDIATAMENTE sin esperar a que muevan la palanca.
         if (EventSystem.current.currentSelectedGameObject == null && primerBotonDeLaEscena != null)
         {
             EventSystem.current.SetSelectedGameObject(primerBotonDeLaEscena);

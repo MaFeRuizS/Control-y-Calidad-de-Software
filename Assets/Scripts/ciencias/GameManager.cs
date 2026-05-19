@@ -241,4 +241,11 @@ public class GameManager : MonoBehaviour
             erroresReciclables++;
         }
     }
+
+    public void SalirAlMenuDesdePartida()
+    {
+        Time.timeScale = 1f; 
+        
+        SceneManager.LoadScene("MainMenu"); 
+    }
 }

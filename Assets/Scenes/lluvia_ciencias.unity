@@ -338,8 +338,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 784.41, y: 300.02}
+  m_AnchoredPosition: {x: 5.64, y: 47.5}
+  m_SizeDelta: {x: 732.58, y: 205.02}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &77765600
 MonoBehaviour:
@@ -1898,8 +1898,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 686.3575, y: -125.18}
-  m_SizeDelta: {x: 196.1, y: 250.36}
+  m_AnchoredPosition: {x: 639.26, y: -118.785}
+  m_SizeDelta: {x: 179.65, y: 237.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402479023
 MonoBehaviour:
@@ -3117,6 +3117,18 @@ MonoBehaviour:
           m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 991324769}
+        m_TargetAssemblyTypeName: GameManager, CodigoPrincipal
+        m_MethodName: SalirAlMenuDesdePartida
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &683704270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3193,8 +3205,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 294.1525, y: -125.18}
-  m_SizeDelta: {x: 196.1, y: 250.36}
+  m_AnchoredPosition: {x: 272.97, y: -118.785}
+  m_SizeDelta: {x: 179.65, y: 237.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &690025449
 MonoBehaviour:
@@ -4396,9 +4408,6 @@ MonoBehaviour:
   - {fileID: 145191730}
   - {fileID: 449555978}
   - {fileID: 361325060}
-  pausePanel: {fileID: 2058192413}
-  primerBotonPausa: {fileID: 190975704}
-  botonPausaHUD: {fileID: 289735171}
   primerBotonGameOver: {fileID: 1312236961}
   primerBotonVictoria: {fileID: 0}
   erroresMetales: 0
@@ -4438,6 +4447,7 @@ MonoBehaviour:
   textoContador: {fileID: 1420330233}
   panelPausa: {fileID: 2058192413}
   primerBotonPausa: {fileID: 190975704}
+  juegoIniciado: 0
 --- !u!114 &1014191969 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7051736408762633848, guid: 743e83ee10c614991b3384ef6c8a1805, type: 3}
@@ -4801,6 +4811,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 991324769}
+        m_TargetAssemblyTypeName: GameManager, CodigoPrincipal
+        m_MethodName: SalirAlMenuDesdePartida
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1116504672
@@ -7758,8 +7780,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 98.05002, y: -125.18}
-  m_SizeDelta: {x: 196.1, y: 250.36}
+  m_AnchoredPosition: {x: 89.825, y: -118.785}
+  m_SizeDelta: {x: 179.65, y: 237.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1796649222
 MonoBehaviour:
@@ -7989,7 +8011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1808679893
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8012,8 +8034,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 583, y: -43.78}
-  m_SizeDelta: {x: -1374.1, y: -281.12}
+  m_AnchoredPosition: {x: 562.04, y: -44}
+  m_SizeDelta: {x: -1130.32, y: -276.51}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1808679894
 MonoBehaviour:
@@ -8037,7 +8059,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: -1771226508839181956, guid: 6bcc1bb03496d9d4b947a8478ca9902e, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -8453,8 +8475,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 490.255, y: -125.18}
-  m_SizeDelta: {x: 196.1, y: 250.36}
+  m_AnchoredPosition: {x: 456.115, y: -118.785}
+  m_SizeDelta: {x: 179.65, y: 237.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1869552951
 MonoBehaviour:
@@ -9192,7 +9214,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2058192414
 RectTransform:
   m_ObjectHideFlags: 0
