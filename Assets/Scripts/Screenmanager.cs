@@ -8,6 +8,7 @@ public class NavegacionEscenas : MonoBehaviour
     public void IrAEscena(string nombreEscena)
     {
         SceneManager.LoadScene(nombreEscena);
+        //Debug.Log("¡Botón presionado! Intentando cargar la escena: " + nombreEscena);
     }
 
     

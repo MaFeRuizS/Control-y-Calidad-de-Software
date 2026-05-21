@@ -7,8 +7,8 @@ public class ControladorESP32 : MonoBehaviour
 {
     [Header("Botones de la Interfaz (Arrastra tus botones aquí)")]
     public Button uiBotonAmarillo_Metales;
-    public Button uiBotonRojo_Organico;
-    public Button uiBotonVerde_Inorganico;
+    public Button uiBotonVerde_Organico;
+    public Button uiBotonBlanco_OtrosInorganicos;
     public Button uiBotonAzul_Reciclable;
 
     [Header("Calibración del Joystick")]
@@ -51,16 +51,16 @@ public class ControladorESP32 : MonoBehaviour
             if(uiBotonAmarillo_Metales != null) uiBotonAmarillo_Metales.Select();
             if(GameManager.Instance != null) GameManager.Instance.ClassifyElement(0); 
         }
-        
-        // 2. ORGÁNICO (Botón Rojo -> B)
-        if (estadoActual.B == 1 && estadoAnterior.B == 0) {
-            if(uiBotonRojo_Organico != null) uiBotonRojo_Organico.Select();
+
+         // 2. ORGÁNICO (Botón Verde -> A)
+        if (estadoActual.A == 1 && estadoAnterior.A == 0) {
+            if(uiBotonVerde_Organico != null) uiBotonVerde_Organico.Select();
             if(GameManager.Instance != null) GameManager.Instance.ClassifyElement(1);
         }
-
-        // 3. INORGÁNICO (Botón Verde -> A)
-        if (estadoActual.A == 1 && estadoAnterior.A == 0) {
-            if(uiBotonVerde_Inorganico != null) uiBotonVerde_Inorganico.Select();
+        
+        // 3. INORGÁNICO (Botón blanco -> B)
+        if (estadoActual.B == 1 && estadoAnterior.B == 0) {
+            if(uiBotonBlanco_OtrosInorganicos != null) uiBotonBlanco_OtrosInorganicos.Select();
             if(GameManager.Instance != null) GameManager.Instance.ClassifyElement(2);
         }
 

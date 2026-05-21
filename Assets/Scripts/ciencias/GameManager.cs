@@ -56,6 +56,9 @@ public class GameManager : MonoBehaviour
     [Header("Conexión con la Fachada")]
     public GestorRetroalimentacion panelRetroalimentacion;
 
+    [Header("Configuración de Progresión")]
+    public int numeroDeEsteNivel;
+
     // --- VARIABLES PRIVADAS ---
     public bool juegoPausado = false;
     private int puntuacion = 0;
@@ -183,6 +186,16 @@ public class GameManager : MonoBehaviour
         if (objetoEnVuelo != null) Destroy(objetoEnVuelo);
 
         float tiempoUsado = timeLimit - tiempoRestante;
+
+        if (victoria){
+            int progresoActual = PlayerPrefs.GetInt("ProgresoNivelActual", 1);
+            
+            if (progresoActual == numeroDeEsteNivel) {
+                PlayerPrefs.SetInt("ProgresoNivelActual", numeroDeEsteNivel + 1); 
+                PlayerPrefs.Save(); 
+                Debug.Log("¡Ciencias superado! Desbloqueado el Nivel " + (numeroDeEsteNivel + 1));
+            }
+        }
 
         if (gameOverPanel) {
             gameOverPanel.SetActive(true);

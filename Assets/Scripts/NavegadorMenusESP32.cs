@@ -34,7 +34,7 @@ public class NavegadorMenusESP32 : MonoBehaviour
 
         DatosControlMatematicas estadoActual = InputArcadeManager.Instance.estadoActual;
 
-        Debug.Log("Joystick X: " + estadoActual.joyX + " | Joystick Y: " + estadoActual.joyY);
+        //Debug.Log("Joystick X: " + estadoActual.joyX + " | Joystick Y: " + estadoActual.joyY);
 
         if (EventSystem.current.currentSelectedGameObject == null && primerBotonDeLaEscena != null)
         {
