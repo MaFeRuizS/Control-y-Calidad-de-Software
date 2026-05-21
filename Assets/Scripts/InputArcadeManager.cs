@@ -19,7 +19,7 @@ public class InputArcadeManager : MonoBehaviour
     public static InputArcadeManager Instance;
 
     [Header("Configuración Global")]
-    public string ipESP32 = "10.197.32.154";
+    public string ipESP32 = "192.168.1.71";
     public DatosControlMatematicas estadoActual = new DatosControlMatematicas();
 
     void Awake()

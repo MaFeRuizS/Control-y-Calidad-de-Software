@@ -6,7 +6,7 @@ public class InputManager : MonoBehaviour
 {
     [Header("Keyboard Mappings")]
     public KeyCode[] categoryKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
-    public int[] categoryValues = { 0, 1, 2, 3 }; // Valores por defecto
+    public int[] categoryValues = { 0, 1, 2, 3 };
 
     void Update()
     {
@@ -26,10 +26,8 @@ public class InputManager : MonoBehaviour
             }
         }
 
-        // Teclas adicionales de control
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // Reiniciar juego
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.RestartGame();
@@ -38,18 +36,14 @@ public class InputManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // Pausar o salir
             Application.Quit();
         }
     }
 
-    // Método para cuando implementes el ESP32
     public void ProcessESP32Input(string command)
     {
-        // Este método se usará cuando conectes el ESP32
         Debug.Log("ESP32 Input: " + command);
         
-        // Ejemplo de cómo procesar comandos del ESP32
         if (command.StartsWith("CATEGORY_"))
         {
             int value = int.Parse(command.Replace("CATEGORY_", ""));

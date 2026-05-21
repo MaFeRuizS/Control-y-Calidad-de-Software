@@ -54,6 +54,9 @@ public class GameManagerMatematicas : MonoBehaviour
     public GameObject botonPausaHUD; 
     public GameObject primerBotonGameOver; 
     public GameObject primerBotonVictoria;
+
+    [Header("Configuración de Progresión")]
+    public int numeroDeEsteNivel = 2;
     
     // --- VARIABLES PRIVADAS 
     private bool juegoPausado = false;
@@ -193,6 +196,15 @@ public class GameManagerMatematicas : MonoBehaviour
         float tiempoUsado = timeLimit - tiempoRestante;
 
         if (victoria) {
+            int progresoActual = PlayerPrefs.GetInt("ProgresoNivelActual", 1);
+            
+            if (progresoActual == numeroDeEsteNivel) 
+            {
+                PlayerPrefs.SetInt("ProgresoNivelActual", numeroDeEsteNivel + 1); 
+                PlayerPrefs.Save(); 
+                Debug.Log("¡Matemáticas superado! Desbloqueado el Nivel " + (numeroDeEsteNivel + 1));
+            }
+
             if (panelLevelComplete) panelLevelComplete.SetActive(true);
             
             if (PuntajeFinal) PuntajeFinal.text = puntuacion.ToString();
@@ -222,10 +234,8 @@ public class GameManagerMatematicas : MonoBehaviour
         if(pausePanel) pausePanel.SetActive(true); 
 
         if(primerBotonPausa) {
-            // EL TRUCO: Limpiamos la selección actual para forzar a Unity a "despertar"
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
             
-            // Le decimos que seleccione el botón de pausa
             UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(primerBotonPausa);
         }
     }

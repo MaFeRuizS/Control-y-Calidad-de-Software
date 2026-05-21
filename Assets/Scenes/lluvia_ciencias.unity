@@ -4415,6 +4415,7 @@ MonoBehaviour:
   erroresInorganicos: 0
   erroresReciclables: 0
   panelRetroalimentacion: {fileID: 1808679896}
+  numeroDeEsteNivel: 1
   juegoPausado: 0
 --- !u!4 &991324770
 Transform:
@@ -9065,52 +9066,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049165360}
   m_CullTransparentMesh: 1
---- !u!1 &2053620014
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2053620016}
-  - component: {fileID: 2053620015}
-  m_Layer: 0
-  m_Name: InputManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2053620015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053620014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d52e887a4d65114dbad0a8111619376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputManager
-  categoryKeys: 31000000320000003300000034000000
-  categoryValues: 01000000020000000300000004000000
---- !u!4 &2053620016
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053620014}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 442.7119, y: 262.24557, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2055238784
 GameObject:
   m_ObjectHideFlags: 0
@@ -9676,7 +9631,6 @@ SceneRoots:
   - {fileID: 1120295567}
   - {fileID: 865085814}
   - {fileID: 708544425}
-  - {fileID: 2053620016}
   - {fileID: 924701951}
   - {fileID: 1991047807}
   - {fileID: 792293585}

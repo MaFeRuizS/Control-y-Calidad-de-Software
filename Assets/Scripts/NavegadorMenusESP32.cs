@@ -16,14 +16,22 @@ public class NavegadorMenusESP32 : MonoBehaviour
     private int estadoPalancaX = 0;
 
     void Start(){
-        estadoAnterior.joyBtn = 0;
-        estadoAnterior.joyX = 2048; 
-        estadoAnterior.joyY = 2048;
+        if (InputArcadeManager.Instance != null) 
+        {
+            estadoAnterior = InputArcadeManager.Instance.estadoActual;
+        }
+        else 
+        {
+            estadoAnterior.joyBtn = 0;
+            estadoAnterior.joyX = 2048; 
+            estadoAnterior.joyY = 2048;
+        }
 
         if (primerBotonDeLaEscena != null)
         {
             EventSystem.current.SetSelectedGameObject(primerBotonDeLaEscena);
         }
+        
     }
 
     void Update(){
@@ -82,7 +90,7 @@ public class NavegadorMenusESP32 : MonoBehaviour
 
         if (posicionFisicaY == -1 && estadoPalancaY == 0) 
         {
-            Debug.Log("¡SALTO HACIA ABAJO! Ejecutado por el objeto: " + gameObject.name);
+            //Debug.Log("¡SALTO HACIA ABAJO! Ejecutado por el objeto: " + gameObject.name);
             MoverUI(MoveDirection.Down); 
             estadoPalancaY = -1;
         }
@@ -95,6 +103,8 @@ public class NavegadorMenusESP32 : MonoBehaviour
         {
             estadoPalancaY = 0; 
         }
+
+        estadoAnterior = estadoActual;
     }
 
     void MoverUI(MoveDirection direccion){

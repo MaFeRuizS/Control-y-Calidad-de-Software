@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ControladorMapa : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class ControladorMapa : MonoBehaviour
     [Header("Configuración de Niveles")]
     public ConfigNivel[] niveles;
 
+    [Header("Estadísticas del Jugador")]
+    public TextMeshProUGUI textoNivelesCompletados;
+    public int totalDeNiveles = 3;
+
     void Start()
     {
         Time.timeScale = 1f;
@@ -27,6 +32,7 @@ public class ControladorMapa : MonoBehaviour
     public void ActualizarProgresoMapa()
     {
         int nivelMaximoDesbloqueado = PlayerPrefs.GetInt("ProgresoNivelActual", 1);
+        Debug.Log("EL MAPA ESTÁ LEYENDO EL PROGRESO: " + nivelMaximoDesbloqueado);
 
         for (int i = 0; i < niveles.Length; i++)
         {
@@ -48,12 +54,23 @@ public class ControladorMapa : MonoBehaviour
                     niveles[i].imagenIcono.sprite = niveles[i].spriteBloqueado;
                 }
             }
+        } 
+        if (textoNivelesCompletados != null)
+        {
+            int nivelesCompletados = nivelMaximoDesbloqueado - 1; 
+
+            if (nivelesCompletados > totalDeNiveles) 
+            {
+                nivelesCompletados = totalDeNiveles;
+            }
+
+            textoNivelesCompletados.text = nivelesCompletados + "/" + totalDeNiveles;
         }
-    }
+    } 
 
     public void CargarNivel(string nombreEscena)
     {
-        Debug.Log("¡Botón presionado! Intentando cargar la escena: " + nombreEscena);
+        //Debug.Log("¡Botón presionado! Intentando cargar la escena: " + nombreEscena);
         SceneManager.LoadScene(nombreEscena);
     }
 
